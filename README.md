@@ -18,7 +18,7 @@ freeze objective
     -> freeze positions before discussion
     -> reproduce and challenge claims
     -> decide from evidence
-    -> checkpoint or finish
+    -> checkpoint, finish, or repair an observed governance defect
 ```
 
 The protocol separates:
@@ -33,10 +33,12 @@ The protocol separates:
 ## Five-minute start
 
 1. Read [GOVERNANCE.md](GOVERNANCE.md).
-2. Choose a launch mode with [docs/launch.md](docs/launch.md).
-3. Fill [templates/campaign.yaml](templates/campaign.yaml).
-4. Start the supervisor with [prompts/supervisor.md](prompts/supervisor.md).
-5. Give every runtime role only its prompt, lease, current checkpoint, and
+2. If needed, let a high-capability agent map and install the smallest local
+   adapter with [docs/harness-adaptation.md](docs/harness-adaptation.md).
+3. Choose a launch mode with [docs/launch.md](docs/launch.md).
+4. Fill [templates/campaign.yaml](templates/campaign.yaml).
+5. Start the supervisor with [prompts/supervisor.md](prompts/supervisor.md).
+6. Give every runtime role only its prompt, lease, current checkpoint, and
    referenced evidence.
 
 Do not paste this entire repository into every agent. The launcher and an
@@ -63,12 +65,32 @@ smallest packet that completely defines their action.
   review, and decision separation.
 - [docs/model-routing.md](docs/model-routing.md) — high-capability versus
   lightweight model assignment and automatic escalation.
+- [docs/operational-controls.md](docs/operational-controls.md) — event-loaded
+  field controls for identity, delivery, validation, progress, and closure.
+- [docs/harness-adaptation.md](docs/harness-adaptation.md) — behavior-level
+  mapping and autonomous installation for Codex or another agent harness.
+- [docs/evolution.md](docs/evolution.md) — evidence-triggered self-learning,
+  prospective migration, evaluation, and rollback.
 - [prompts/](prompts/) — role-scoped runtime prompts.
 - [templates/](templates/) — minimal durable records.
 - [examples/minimal-campaign.md](examples/minimal-campaign.md) — a small,
   domain-neutral example.
 - [scripts/validate.py](scripts/validate.py) — dependency-free repository
   validation.
+
+## Reference implementation status
+
+The protocol has been tested in Codex for role-scoped context, multiple
+conversations and subagents, independent review, durable recovery, repository
+editing, and automated validation. The repository validator also runs in GitHub
+Actions. This is reference compatibility evidence, not certification of every
+Codex release or of other harnesses.
+
+For another harness, give a high-capability agent the
+[adaptation guide](docs/harness-adaptation.md). It may autonomously install the
+smallest reversible adapter inside already authorized local or repository
+scope, run the conformance scenarios, and record any weaker guarantees. It
+must not invent missing independence, persistence, or idempotence.
 
 ## What this is not
 

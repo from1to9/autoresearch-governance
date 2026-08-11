@@ -15,6 +15,10 @@ context-efficient.
   recovery, or a downstream decision.
 - Avoid fixed agent counts, compute budgets, thresholds, or vendor-specific
   APIs in normative rules.
+- Tie material governance changes to an observed defect, patch the smallest
+  module, preserve active campaign semantics, and state a rollback condition.
+- Keep project-specific experience local; upstream only its generalized,
+  privacy-reviewed control.
 
 Run validation before submitting changes:
 

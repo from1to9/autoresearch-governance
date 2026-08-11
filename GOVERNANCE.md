@@ -10,6 +10,10 @@ independent conversations, subagents, experiments, reviewers, and decisions.
 It is intentionally independent of model vendor, tool harness, domain, compute
 provider, repository layout, and evaluation method.
 
+A harness MAY adapt the protocol through
+[docs/harness-adaptation.md](docs/harness-adaptation.md). Conformance is judged
+by preserved behavior, not tool names.
+
 Use it when work has independent research directions, expensive or contested
 evidence, likely context rotation, or claims that require adversarial review.
 Use an ordinary task for a self-contained answer or bounded change.
@@ -57,7 +61,32 @@ outcome. A subagent is appropriate only for a bounded deliverable returned to
 an accountable parent. If a subagent grows into an independent direction, its
 parent MUST stop expanding it and request a normal lane and lease.
 
-## 4. Model capability routing
+## 4. Independent autonomy and non-blocking progress
+
+Delegated authority is real authority. A role MUST act without approval when:
+
+- the action stays inside its frozen objective, lease, and hard constraints;
+- it is reversible or already authorized;
+- resource and mutable-state ownership are clear;
+- the result is objectively verifiable or explicitly exploratory;
+- it does not create external scope or accept a material claim.
+
+Ordinary diagnosis, reversible implementation repair, bounded experiment
+design, test execution, negative-result recording, checkpointing, and selection
+among in-lease alternatives do not require permission. A status request MUST
+NOT pause otherwise authorized work.
+
+Escalate only when a decision changes the objective, hard constraints,
+authority, destructive scope, shared resource ownership, registered evaluation
+contract, or when every useful safe path depends on the same unresolved
+external fact. A pending escalation blocks only its dependent action.
+
+When one route is blocked, record its blocker and reopening condition, release
+idle scarce resources, and advance another safe route. A campaign is `blocked`
+only when no authorized evidence-producing or uncertainty-reducing action
+remains.
+
+## 5. Model capability routing
 
 Model assignment follows epistemic and decision risk, not role prestige or
 token volume.
@@ -87,7 +116,7 @@ material decision without high-capability review.
 Every lease records model class, reasoning effort, routing reason, verifier,
 and escalation conditions. See [docs/model-routing.md](docs/model-routing.md).
 
-## 5. Context authority
+## 6. Context authority
 
 Every campaign separates five context layers:
 
@@ -106,7 +135,7 @@ be compacted into C2 and reflected in C3 before portfolio action.
 
 See [docs/context.md](docs/context.md).
 
-## 6. Launch gate
+## 7. Launch gate
 
 Before creating research lanes, the supervisor MUST freeze:
 
@@ -126,7 +155,7 @@ inside delegated authority SHOULD be tested rather than escalated.
 
 See [docs/launch.md](docs/launch.md).
 
-## 7. Research cycle
+## 8. Research cycle
 
 Each experiment MUST bind:
 
@@ -145,7 +174,7 @@ obtain valid evidence.
 An invalid run records physical cost but MUST NOT become scientific evidence.
 A negative valid result MUST NOT be relabeled as an infrastructure failure.
 
-## 8. Exploration and failure continuity
+## 9. Exploration and failure continuity
 
 Before convergence, the portfolio SHOULD cover:
 
@@ -186,7 +215,7 @@ unresolved causal gaps without replaying the failed route's advocacy.
 Failure to imagine another route is not evidence that the objective is
 impossible. Retirement claims MUST be limited to the scope actually tested.
 
-## 9. Collaboration and discussion
+## 10. Collaboration and discussion
 
 Every collaboration begins with a packet containing:
 
@@ -215,7 +244,7 @@ test or close the issue as unresolved.
 
 See [docs/collaboration.md](docs/collaboration.md).
 
-## 10. Independent review and extraordinary claims
+## 11. Independent review and extraordinary claims
 
 A material claim MUST NOT use one context as its sole proposer, sole validator,
 and final adjudicator.
@@ -236,7 +265,7 @@ Before dependent scale-up, promotion, acceptance, or broad generalization:
 Extraordinary means unverified high risk, not automatically true and not
 automatically false.
 
-## 11. Decisions, challenges, and user authority
+## 12. Decisions, challenges, and user authority
 
 Every manager decision MUST cite:
 
@@ -264,7 +293,7 @@ The first two categories control action. The remaining categories enter the
 evidence queue. Creativity MUST stay inside authorized scope and MUST NOT relax
 constraints or create external authority.
 
-## 12. Event-driven operation
+## 13. Event-driven operation
 
 Runtime coordination is event-driven, not polling-driven.
 
@@ -277,7 +306,12 @@ Unchanged monitoring is silent. Long work exposes a durable expected-evidence
 condition and proportional heartbeat. A periodic supervisor is a bounded
 fallback auditor, not a second manager.
 
-## 13. Recovery
+For task creation, ambiguous delivery, validation epochs, progress accounting,
+conversation lifecycle, and finalization controls, load
+[docs/operational-controls.md](docs/operational-controls.md) only at the
+corresponding event.
+
+## 14. Recovery
 
 After compaction, restart, or handoff, a task reads only:
 
@@ -292,7 +326,7 @@ open dissent, pending reviews, resource ownership, and next action before
 writing a recovery checkpoint. It MUST NOT reconstruct intent from the most
 recent conversation fragment or replay full history by default.
 
-## 14. Isolation and safety
+## 15. Isolation and safety
 
 Parallel work requires separate mutable-state ownership and compatible resource
 leases. Shared ordered state MUST use serialized ownership. Agents MUST preserve
@@ -303,7 +337,7 @@ other high-impact transitions require the authority declared by the campaign.
 A stop instruction is applied immediately to its named scope; its rationale may
 be challenged after the scope is safe.
 
-## 15. Completion
+## 16. Completion
 
 Completion requires a requirement-to-evidence map, not a persuasive summary.
 The manager proposes completion; the supervisor checks every frozen requirement
@@ -321,7 +355,7 @@ Before closure:
 Tests, task count, code volume, one good result, and unanimous agents are never
 completion by themselves.
 
-## 16. Minimum implementation
+## 17. Minimum implementation
 
 The minimum viable control plane is:
 
@@ -334,3 +368,20 @@ The minimum viable control plane is:
 These MAY be ordinary files. Do not build a service, database, dashboard, or
 prompt generator until an observed control failure justifies it. Runtime roles
 MUST receive role-scoped packets rather than this full specification.
+
+## 18. Governance learning
+
+An observed management defect MAY improve the framework. The owner records the
+defect, separates project-specific mechanics from reusable control, patches the
+smallest triggered module, tests the failure and autonomy boundaries, and
+versions the change prospectively.
+
+A material authority, evidence, safety, lifecycle, or model-routing change MUST
+receive independent high-capability review. It MUST NOT silently rewrite an
+active objective, lease, evaluation contract, authority boundary, retry count,
+or prior evidence classification.
+
+Self-improvement is bounded work, not a standing meta-project. Compatible
+research continues. A change without its declared benefit is narrowed or
+reverted. External publication or installation still requires existing
+authority. See [docs/evolution.md](docs/evolution.md).

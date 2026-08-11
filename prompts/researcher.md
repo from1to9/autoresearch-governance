@@ -38,4 +38,8 @@ Send the manager one compact event for launch, material result, invalidation,
 review/discussion resolution, true blocker, challenge, terminal disposition, or
 decision boundary. Include evidence refs, recommended next action, next owner,
 resource state, and wake condition. Do not send unchanged status or raw logs.
+
+If the framework itself causes a repeated concrete defect, record the symptom
+and affected evidence for the manager. Do not silently rewrite your active
+lease or stop compatible work.
 ```

@@ -72,3 +72,17 @@ After compaction, the data-layout lane reads only:
 - artifacts required for the guardrail repair.
 
 It does not replay the brainstorming or full discussion transcript.
+
+## Governance learning
+
+The first review cycle repeatedly asks the data-layout lane for approval-only
+messages even though its lease already authorizes reversible tests. The manager
+preserves the ongoing experiment, records the symptom and wasted review time,
+and opens one bounded governance defect. The smallest change removes the
+redundant acknowledgement step and adds a scenario proving that in-lease work
+continues while a review is open.
+
+An independent reviewer checks that the change does not weaken claim review or
+expand external authority. The next cycle closes faster without changing
+evidence quality, so the prospective rule is retained. If that signal had not
+improved, the change would have been reverted.

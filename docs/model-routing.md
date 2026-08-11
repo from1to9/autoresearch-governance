@@ -89,4 +89,6 @@ model_assignment:
 
 Do not pin vendor-specific model names in the governance core. The launcher maps
 these capability classes to currently available models and records that mapping
-in the campaign anchor so later recovery can reproduce the assignment.
+in the campaign anchor so later recovery can reproduce the assignment. A
+harness adapter that cannot provide separate tiers uses the strongest available
+model for all material work; it never silently substitutes a cheaper model.

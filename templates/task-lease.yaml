@@ -34,6 +34,13 @@ evidence_contract: "<ref>"
 validation_contract: "<ref>"
 expected_next_evidence: "<condition>"
 
+autonomy:
+  proceed_without_approval:
+    - "<reversible in-lease action>"
+  escalate_before:
+    - "<objective, authority, destructive, shared-resource, or external boundary>"
+  blocked_scope_rule: "<smallest dependent scope>"
+
 collaboration:
   contribution_role: lead_investigator
   independence_group: "<id or none>"

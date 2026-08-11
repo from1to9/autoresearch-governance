@@ -96,6 +96,14 @@ context:
   conversation_rotation: "<policy-ref>"
   interaction_budget: "<policy-ref>"
 
+governance:
+  specification_version: "<version or commit>"
+  harness_adapter_ref: "<mapping and validation ref>"
+  overhead_budget: "<time or work envelope>"
+  operational_controls_ref: docs/operational-controls.md
+  evolution_policy_ref: docs/evolution.md
+  material_change_requires_independent_review: true
+
 monitoring:
   mode: event_driven
   periodic_audit: "<condition or disabled>"

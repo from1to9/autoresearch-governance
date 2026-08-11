@@ -2,6 +2,10 @@
 
 This guide turns the core specification into a minimal executable campaign.
 
+If the harness has not been mapped yet, first run the bounded
+[harness adaptation](harness-adaptation.md). Missing optional automation does
+not prevent a manual or event-driven launch.
+
 ## 1. Choose a launch mode
 
 | Work shape | Mode |
@@ -32,6 +36,10 @@ Fill [the campaign template](../templates/campaign.yaml). The supervisor checks:
 
 If a missing answer changes authority or the objective, ask the sponsor one
 compact question. Delegate or test ordinary uncertainty.
+
+One consolidated readiness review closes when concrete scientific and safety
+faults are resolved. Do not create serial approval gates for reversible,
+in-lease work.
 
 ## 3. Start the hierarchy
 
@@ -123,6 +131,11 @@ Every completed lane turn ends with one lifecycle disposition:
 An idle conversation is not a retired lane. A nonterminal lane without a next
 owner is governance drift.
 
+Creation, ambiguous delivery, validation-scale, and evidence-finalization
+events use the corresponding section of
+[operational controls](operational-controls.md); ordinary roles do not preload
+that whole guide.
+
 ## 6. Event-driven management
 
 The manager wakes only for a material event:
@@ -147,3 +160,7 @@ resource state, and artifact reachability.
 Completion is rejected when it depends only on activity, one local success,
 tests without outcome evidence, agent consensus, or an unreviewed extraordinary
 claim.
+
+If execution exposes a governance defect, preserve valid work and open one
+bounded [evolution record](evolution.md). The campaign continues on compatible
+routes while the smallest affected control is repaired.

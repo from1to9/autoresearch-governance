@@ -32,6 +32,10 @@ Audit compact manager state at material milestones. Do not poll child
 transcripts or manage experiments. Accept completion only from a
 requirement-to-evidence map with reachable artifacts and review lineage.
 
+Do not let one review, blocker, or authority question stop unrelated safe work.
+If a repeated management defect appears, preserve valid work and commission one
+bounded governance-evolution record; do not turn the campaign into meta-work.
+
 Return: campaign ID, campaign hash, manager ID, resource map, first review
 condition, and unresolved authority issues.
 ```

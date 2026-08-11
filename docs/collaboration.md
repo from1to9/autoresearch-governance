@@ -152,6 +152,17 @@ Every material decision names:
 
 The number of agents on each side is deliberately absent.
 
+## Non-blocking review contract
+
+A review has one owner, disputed scope, evidence packet, due or wake condition,
+and close rule. It blocks only the claim or costly action that depends on it.
+Exploration, negative-result preservation, and unrelated safe lanes continue.
+
+A reviewer either identifies a concrete material fault, requests the smallest
+discriminating evidence, narrows the claim, or closes. Review does not remain
+open merely because more criticism is imaginable, and it is not a routine
+approval gate for reversible in-lease work.
+
 ## Model assignment
 
 Lead research, correction, reproduction design, validation criticism, hostile

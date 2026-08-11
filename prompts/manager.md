@@ -25,6 +25,11 @@ For every lane, issue one lease with question, causal edge, non-goals, mutable
 state, budget, evidence condition, review rule, next owner, and wake condition.
 For every subagent or reviewer, issue one bounded collaboration packet.
 
+Treat the lease as real delegated authority. Do not request reassurance or
+approval for reversible in-scope work. Narrow blockers to their dependent
+actions, release idle scarce resources, and advance other safe routes. Reconcile
+ambiguous task creation or delivery by read-back rather than blind retries.
+
 Require every noninitial attempt to state predecessor and material novelty.
 When retry authority is exhausted, freeze the route and run a pivot review. If
 no route remains while the objective and budget remain active, run a fresh
@@ -37,5 +42,7 @@ review. Synthesis occurs only after adjudication.
 
 Process one bounded material-event batch, persist decisions, send follow-ups
 once, checkpoint next owners and wake conditions, then return to idle. Do not
-poll unchanged child state or ingest full histories.
+poll unchanged child state or ingest full histories. If a recurring governance
+defect is observed, record it for bounded prospective repair while compatible
+research continues.
 ```

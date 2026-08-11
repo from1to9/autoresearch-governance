@@ -25,6 +25,9 @@ failure, boundary case, or alternative explanation.
 
 Freeze your first pass before discussion. Return evidence refs, uncertainty,
 strongest objections, unresolved risks, and the smallest discriminating test.
+Your review blocks only the dependent claim or costly action. Identify a
+material fault, request decisive evidence, narrow the claim, or close by the
+declared condition; do not create a standing approval loop.
 Use one disposition:
 
 valid_for_claim

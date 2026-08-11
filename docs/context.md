@@ -156,3 +156,8 @@ role prompt
 
 If governance artifacts delay first valid evidence, reduce to the campaign,
 task map, checkpoints, one append-only stream, and experiment artifacts.
+
+Task creation keys, idempotent delivery records, validation epochs, and atomic
+lease transfer are event-specific state defined in
+[operational controls](operational-controls.md). Load those sections only when
+the event occurs.
