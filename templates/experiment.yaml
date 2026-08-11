@@ -1,0 +1,44 @@
+schema_version: 1
+experiment_id: "<id>"
+campaign_id: "<id>"
+task_id: "<id>"
+scope_epoch: 1
+
+hypothesis_id: "<id>"
+mechanism_family: "<semantic key>"
+route_class: "<leading | orthogonal_alternative | falsification_or_boundary>"
+attempt_id: "<id>"
+predecessor_attempt_id: "<id or none for first attempt>"
+novelty_delta: "<material change or initial route>"
+
+hypothesis: "<falsifiable statement>"
+expected_signal: "<observable>"
+decisive_falsifier: "<condition>"
+downstream_decision: "<decision>"
+
+baseline: "<identity>"
+intervention: "<identity>"
+sample_unit: "<independent unit>"
+independence_assumptions: "<assumptions>"
+data_identity: "<identity>"
+code_and_config_identity: "<identity>"
+evaluator_identity: "<identity>"
+
+primary_metric: "<metric>"
+guardrails:
+  - "<metric>"
+allowed_claim_tier: "<screen | confirmation | acceptance>"
+invalidation_conditions:
+  - "<condition>"
+
+resource_budget: "<budget>"
+executable_action: "<command or entrypoint>"
+expected_evidence_condition: "<condition>"
+
+result:
+  primary_class: "<result class>"
+  evidence_refs:
+    - "<ref>"
+  scientific_n_effect: "<count | no_count | quarantined>"
+  disposition: "<repair | replicate | continue | pivot | retire | review>"
+  reopen_condition: "<condition or none>"

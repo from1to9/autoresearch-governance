@@ -1,0 +1,25 @@
+schema_version: 1
+decision_id: "<id>"
+campaign_id: "<id>"
+campaign_hash: "<hash>"
+decision_owner: "<role and task id>"
+scope: "<lane, claim, or portfolio>"
+
+evidence_refs:
+  - "<ref>"
+attempt_lineage_refs:
+  - "<ref>"
+alternatives_considered:
+  - alternative: "<hypothesis or route>"
+    disposition: "<state and reason>"
+independent_review_refs:
+  - "<ref or none>"
+unresolved_dissent_refs:
+  - "<ref or none>"
+claim_risk: "<ordinary | extraordinary | not_applicable>"
+
+decision: "<continue | confirm | replicate | scale | pivot | queue | pause | retire | rotate | replace | accept>"
+rationale: "<evidence-to-decision mapping>"
+resource_effect: "<change or none>"
+next_action: "<action>"
+next_review_condition: "<condition>"

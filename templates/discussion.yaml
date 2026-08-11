@@ -1,0 +1,18 @@
+schema_version: 1
+discussion_id: "<id>"
+campaign_id: "<id>"
+question: "<one disputed question>"
+frozen_position_refs:
+  - "<participant output ref>"
+claims_and_counterclaims:
+  - claim: "<claim>"
+    author: "<role and task id>"
+    evidence_refs:
+      - "<ref>"
+discriminating_test: "<smallest decisive test or none>"
+unresolved_dissent:
+  - "<issue>"
+adjudicator: "<role and task id>"
+close_condition: "<condition>"
+disposition: "<test | accept_narrowly | reject | revise | unresolved>"
+resulting_decision_ref: "<ref or none>"

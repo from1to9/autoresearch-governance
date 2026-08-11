@@ -1,0 +1,34 @@
+schema_version: 1
+collaboration_id: "<id>"
+campaign_id: "<id>"
+commissioner: "<role and task id>"
+assignee: "<role and task id>"
+contribution_role: "<idea_scout | alternative_explorer | reproducer | validation_critic | hostile_referee | synthesizer>"
+
+owned_question: "<one question>"
+deliverable: "<bounded output>"
+input_refs:
+  - "<ref>"
+context_exposure: "<full_lease | evidence_only | blind_to_favored_route>"
+deliberately_withheld_context:
+  - item: "<item>"
+    reason: "<anchoring or independence reason>"
+independence_group: "<id or none>"
+
+model_assignment:
+  class: "<high | adversarial_high | lightweight>"
+  reasoning_effort: "<highest_available | low | medium>"
+  routing_reason: "<risk-based reason>"
+  objective_verifier: "<test, schema, or reviewer>"
+  escalate_on:
+    - "<condition>"
+
+allowed_files_and_resources:
+  - "<scope>"
+forbidden_actions:
+  - "<action>"
+output_contract: "<schema or artifact>"
+stop_or_due_condition: "<condition>"
+discussion_route: "<parent-owned route>"
+decision_owner: "<role and task id>"
+status: commissioned

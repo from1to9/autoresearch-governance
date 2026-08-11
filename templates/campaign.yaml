@@ -1,0 +1,107 @@
+schema_version: 1
+campaign_id: "<stable-id>"
+version: 1
+objective:
+  outcome: "<one measurable outcome>"
+  completion_boundary: "<requirement-to-evidence rule>"
+  non_goals:
+    - "<explicit exclusion>"
+
+authority:
+  sponsor_controls:
+    - objective
+    - hard_constraints
+    - external_scope
+    - destructive_actions
+  supervisor_controls:
+    - charter_versions
+    - manager_replacement
+    - completion
+  manager_controls:
+    - portfolio
+    - leases
+    - pivot_retire_scale
+
+hard_constraints:
+  - "<constraint>"
+
+evaluation:
+  primary_metrics:
+    - "<metric>"
+  guardrails:
+    - "<metric>"
+  definitions_ref: "<contract-ref>"
+  evidence_tiers: "<policy-ref>"
+  acceptance: "<policy-ref>"
+
+goal_map:
+  root_goal_id: "<id>"
+  questions:
+    - question_id: "<id>"
+      question: "<falsifiable question>"
+      causal_edge_to_root: "<edge>"
+      downstream_decision: "<decision changed by each result class>"
+      forbidden_substitutes:
+        - "<nearby non-answer>"
+
+exploration:
+  breadth_budget: "<time, compute, or task envelope>"
+  route_coverage:
+    - leading
+    - orthogonal_alternative
+    - falsification_or_boundary
+  same_mechanism_retry_rule: "<limit and novelty gate>"
+  pivot_condition: "<condition>"
+  search_reset_condition: "<condition>"
+
+collaboration:
+  independent_first_pass: true
+  discussion_rule: freeze_exchange_attack_adjudicate_synthesize
+  decision_rule: evidence_not_vote
+  role_separation: "<policy>"
+  extraordinary_claim_triggers:
+    - "<trigger>"
+
+model_routing:
+  high_capability:
+    model: "<current highest-capability model>"
+    reasoning_effort: highest_available
+    required_for:
+      - research
+      - correction
+      - adjudication
+      - synthesis
+  adversarial_high:
+    model: "<current highest-capability model>"
+    reasoning_effort: highest_available
+    required_for:
+      - independent_review
+      - hostile_referee
+  lightweight:
+    model: "<fast cost-efficient model>"
+    eligibility_ref: docs/model-routing.md
+    material_output_reviewed_by_high_capability: true
+
+resources:
+  max_active_lanes: "<count and rationale>"
+  manager_supervision_capacity: "<count and rationale>"
+  subagent_concurrency_per_lane: "<count and rationale>"
+  leases:
+    - resource_id: "<id>"
+      capacity: "<limit>"
+
+context:
+  runtime_packets_only: true
+  checkpoint_events: "<policy-ref>"
+  conversation_rotation: "<policy-ref>"
+  interaction_budget: "<policy-ref>"
+
+monitoring:
+  mode: event_driven
+  periodic_audit: "<condition or disabled>"
+  human_gateway: "<role or task id>"
+
+completion:
+  evidence_map_required: true
+  independent_review_required: true
+  archive_and_cleanup: "<policy-ref>"

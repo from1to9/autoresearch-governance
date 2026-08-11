@@ -1,0 +1,48 @@
+schema_version: 1
+campaign_id: "<id>"
+campaign_version: 1
+campaign_hash: "<hash>"
+task_id: "<id>"
+scope_epoch: 1
+role: "<manager | research>"
+
+owned_question: "<one question>"
+parent_question_id: "<id>"
+causal_edge_to_parent: "<edge>"
+downstream_decision: "<decision>"
+allowed_hypothesis_family: "<boundary>"
+non_goals:
+  - "<exclusion>"
+
+mutable_state_ownership:
+  - "<file, workspace, dataset, or resource>"
+resource_lease:
+  resource_id: "<id>"
+  capacity: "<limit>"
+  release_condition: "<condition>"
+compute_envelope: "<budget>"
+
+model_assignment:
+  class: "<high | adversarial_high | lightweight>"
+  reasoning_effort: "<highest_available | low | medium>"
+  routing_reason: "<risk-based reason>"
+  objective_verifier: "<test, schema, or reviewer>"
+  escalate_on:
+    - "<ambiguity, anomaly, conflict, or verifier failure>"
+
+evidence_contract: "<ref>"
+validation_contract: "<ref>"
+expected_next_evidence: "<condition>"
+
+collaboration:
+  contribution_role: lead_investigator
+  independence_group: "<id or none>"
+  discussion_route: "<parent-owned route>"
+  decision_owner: "<role and task id>"
+
+review:
+  parent_task_id: "<id>"
+  next_review_condition: "<condition>"
+  renewal_condition: "<condition>"
+  rotation_condition: "<condition>"
+  escalation_route: "<gateway>"

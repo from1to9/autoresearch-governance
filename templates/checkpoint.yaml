@@ -1,0 +1,61 @@
+schema_version: 1
+campaign_id: "<id>"
+campaign_hash: "<hash>"
+task_id: "<id>"
+scope_epoch: 1
+checkpoint_seq: 1
+reason: "<event>"
+
+scope:
+  owned_question: "<question>"
+  causal_edge: "<edge>"
+  downstream_decision: "<decision>"
+
+current:
+  phase: "<phase>"
+  hypothesis_id: "<id or none>"
+  mechanism_family: "<key or none>"
+  route_class: "<class or none>"
+  experiment_id: "<id or none>"
+  attempt_id: "<id or none>"
+  predecessor_attempt_id: "<id or none>"
+  novelty_delta: "<delta or none>"
+  latest_attempt_class: "<class or none>"
+  retry_authority_remaining: "<state>"
+  search_reset_due: false
+  claim_risk: "<ordinary | extraordinary | not_applicable>"
+
+evidence:
+  latest_decision_id: "<id or none>"
+  valid_refs:
+    - "<ref>"
+  quarantined_refs:
+    - "<ref or none>"
+
+open_state:
+  active_alternatives:
+    - "<hypothesis id>"
+  retired_routes_and_reopen_conditions:
+    - "<route and condition>"
+  discussions_and_dissent:
+    - "<discussion id>"
+  pending_independent_reviews:
+    - "<collaboration id>"
+  blockers:
+    - "<classified blocker>"
+
+ownership:
+  resource_state: "<assigned | released | transferring>"
+  next_owner: "<role and task id>"
+  next_action: "<one action>"
+  wake_condition: "<event or deadline>"
+
+context_health:
+  campaign_match: true
+  scope_match: true
+  attempt_lineage_complete: true
+  retry_or_pivot_gate_valid: true
+  route_breadth_accounted_for: true
+  role_separation_valid: true
+  evidence_refs_resolve: true
+  next_action_supported: true
