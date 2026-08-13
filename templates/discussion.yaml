@@ -13,6 +13,8 @@ discriminating_test: "<smallest decisive test or none>"
 unresolved_dissent:
   - "<issue>"
 adjudicator: "<role and task id>"
+decision_scope: "<bounded_technical | cross_task_management | goal_or_authority>"
+predeclared_rule: "<evidence-to-disposition rule>"
 close_condition: "<condition>"
 disposition: "<test | accept_narrowly | reject | revise | unresolved>"
 resulting_decision_ref: "<ref or none>"

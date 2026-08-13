@@ -15,6 +15,10 @@ lightweight model where correctness is sealed by the task and its verifier.
 label records independence and purpose; it does not imply a hierarchy between
 agents.
 
+G0/G1 supervision, G2 research, correction/recovery, adjudication, validation
+criticism, hostile review, and material synthesis default to the strongest model
+at its highest supported reasoning effort, regardless of professional lens.
+
 ## Lightweight eligibility gate
 
 A task is eligible only when every answer is yes:
@@ -40,6 +44,10 @@ If any answer is no, route the work to `high`.
 - **Simple coding:** edit an isolated, explicitly bounded surface with objective
   tests; exclude security, safety, irreversible migration, architecture, and
   ambiguous product behavior.
+
+A monitor that only compares sealed fields may be lightweight. A watchdog that
+diagnoses drift, selects a wake target, repairs identity/routing, or recommends
+manager replacement is correction work and therefore `high`.
 
 ## Mandatory escalation
 

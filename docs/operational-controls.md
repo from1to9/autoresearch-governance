@@ -82,7 +82,11 @@ creation_key: <campaign/lane/scope-epoch/role>
 creation_owner: <supervisor-or-manager>
 creation_state: reserved | pending | ambiguous | bound | contained
 creation_request_ref: <ref-or-none>
+logical_participant_id: <stable-id>
 authoritative_task_id: <id-or-none>
+authoritative_conversation_id: <id-or-none>
+binding_readback_ref: <ref-or-none>
+roster_version_bound: <version-or-none>
 duplicate_task_ids:
   - <id>
 ```
@@ -95,8 +99,11 @@ The owner:
 4. treats a timeout, queued response, request ID, or transport error as
    `pending` or `ambiguous`, not proof that creation failed;
 5. reconciles through destination or task-list read-back before any retry;
-6. binds one authoritative task before sending executable work or a lease;
-7. contains duplicates before any of them begin work.
+6. verifies logical role, scope epoch, creation key, task ID, and conversation ID
+   by product/task read-back;
+7. appends the binding to the participant roster before sending executable work
+   or a lease;
+8. contains duplicates before any of them begin work.
 
 A completed turn, failed hypothesis, released resource, or missing
 acknowledgement is not permission to create a replacement. A new task needs a
@@ -108,7 +115,11 @@ Before sending a material instruction, freeze:
 
 ```yaml
 instruction_id: <stable-id>
+sender_participant_id: <logical-id>
+recipient_participant_ids: [<logical-id>]
 destination_task_id: <id>
+destination_conversation_id: <id-or-none>
+roster_version: <version>
 scope_epoch: <version>
 content_hash: <canonical-hash>
 dispatch_owner: <one-role>
@@ -116,14 +127,20 @@ delivery_state: pending | ambiguous | observed | superseded
 supersedes: <instruction-id-or-none>
 ```
 
+Resolve the logical recipient through the current roster immediately before
+sending. The receiver verifies its logical identity, destination transport ID,
+campaign, and scope before acting. A mismatch is rejected and reported to sender
+and roster owner without executing or forwarding the payload.
+
 An ambiguous send requires destination read-back for the same instruction ID,
 hash, and scope. If policy permits one retry after absence is shown, resend the
 identical tuple. Never send a blind third copy. Receivers apply the first tuple
 once and silently drop duplicates.
 
 One dispatch owner prevents a supervisor, manager, and researcher from
-mirroring the same correction. Urgent containment changes urgency, not
-idempotence.
+mirroring the same correction. Scoped peers may directly send evidence,
+dependency, review, handoff, and completion events. Urgent containment changes
+urgency, not idempotence.
 
 ## 5. Readiness without approval loops
 
@@ -263,6 +280,7 @@ resource_lease_state: assigned | released | transferring
 next_owner: <role-or-none-terminal>
 next_action: <one-action-or-none>
 decision_due: <event-or-condition>
+completion_delivery_state: <not_due | pending | ambiguous | observed>
 predecessor_task_id: <id-or-none>
 successor_task_id: <id-or-none>
 rotation_reason: <gate-or-none>
@@ -319,6 +337,11 @@ Do not concatenate child logs.
 | Observed failure | Repair |
 | --- | --- |
 | unchanged state is polled | restore event/cursor reads and silence no-change events |
+| wrong task/conversation ID is recorded | quarantine binding, read state back, append corrected roster version, notify affected roles |
+| instruction reaches the wrong role | reject without action; resolve logical recipient and current binding before one correct send |
+| small task finishes silently | persist result; notify commissioner, decision owner, and fired subscribers directly |
+| every task is idle while nonterminal | reconcile liveness edges; wake minimum authorized G2/G1/G0 set |
+| G1 becomes a routine relay | restore scoped direct subscriptions and reserve G1 for management deltas |
 | ambiguous create duplicates tasks | bind one creation key and contain duplicate leases |
 | ambiguous instruction is resent | read destination; retry one identical tuple only after absence |
 | invalid evidence repeats | quarantine affected claims and repair the smallest method boundary |
@@ -331,3 +354,6 @@ Do not concatenate child logs.
 
 Activate these controls after the named event or a material risk. They are not
 a checklist that every ordinary experiment must complete.
+
+For full roster, direct-routing, completion-delivery, watchdog, and role-memory
+rules, load [communication and liveness](communication-liveness.md).

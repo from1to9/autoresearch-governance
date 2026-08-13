@@ -2,9 +2,15 @@ schema_version: 1
 campaign_id: "<id>"
 campaign_version: 1
 campaign_hash: "<hash>"
+participant_id: "<stable-logical-id>"
 task_id: "<id>"
+binding_epoch: 1
+roster_version_seen: 1
 scope_epoch: 1
-role: "<manager | research>"
+level: "<G1 | G2>"
+functional_role: "<investigate | explore | implement | reproduce | challenge | adjudicate | synthesize>"
+professional_lens: "<product | software | algorithm | data | mathematics | domain | operations | safety | security | none>"
+decision_scope: "<recommend_only | bounded_technical_adjudication | management>"
 
 owned_question: "<one question>"
 parent_question_id: "<id>"
@@ -46,6 +52,16 @@ collaboration:
   independence_group: "<id or none>"
   discussion_route: "<parent-owned route>"
   decision_owner: "<role and task id>"
+  contact_slice:
+    - "<participant-id and binding-epoch>"
+  requires_event_ids:
+    - "<dependency-event-id or none>"
+  produces_event_kinds:
+    - "<event-kind>"
+  completion_subscribers:
+    - participant_id: "<logical-id>"
+      notify_on: "<completed | invalid | blocked | artifact_ready | resource_released>"
+  completion_owner: "<participant-id>"
 
 review:
   parent_task_id: "<id>"

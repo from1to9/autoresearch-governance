@@ -26,7 +26,15 @@ favored caching explanation.
 - Lane B owns data-layout experiments and another workspace.
 - Reviewer C owns matched-baseline validation and no implementation authority.
 
-Each lane reports only material events and artifact refs.
+Lane A combines an investigator function with a software-engineering lens. Lane
+B combines investigator and algorithm/data-layout lenses. Reviewer C combines a
+validation-critic function with data-analysis and measurement lenses. These
+labels change the expected tests; they do not create votes.
+
+Each lane resolves peers through the participant roster and reports only material
+events and artifact refs. When Reviewer C completes its bounded check, it sends
+the terminal event directly to Lane B and the manager because both subscribed to
+that result; it does not wait for the manager to relay it.
 
 The supervisor, manager, research lanes, reproducer, and hostile referee use the
 highest-capability model at its highest reasoning effort. A lightweight worker
@@ -67,11 +75,17 @@ After compaction, the data-layout lane reads only:
 
 - campaign hash and objective;
 - its current lease;
+- its verified self-binding/contact slice and role memory;
 - its latest checkpoint;
 - the result, reproduction, referee, and manager-decision records;
 - artifacts required for the guardrail repair.
 
 It does not replay the brainstorming or full discussion transcript.
+
+If every task becomes idle after the reviewer result but Lane B's subscribed
+follow-up was not observed, the G0 watchdog reads the roster, delivery cursor,
+and due index, then wakes Lane B under its existing lease. It does not start the
+experiment itself or wake the whole team.
 
 ## Governance learning
 

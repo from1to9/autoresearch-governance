@@ -1,0 +1,23 @@
+schema_version: 1
+message_id: "<stable-id>"
+campaign_id: "<id>"
+sender_participant_id: "<logical-id>"
+sender_task_id: "<verified-id>"
+recipient_participant_ids:
+  - "<logical-id>"
+resolved_destination_task_ids:
+  - "<verified-id>"
+resolved_destination_conversation_ids:
+  - "<verified-id-or-none>"
+roster_version: 1
+scope_epoch: 1
+event_kind: "<launch | result | dependency_ready | invalid | blocked | challenge | review | handoff | completed | routing_error | wake>"
+content_hash: "<canonical-hash>"
+evidence_refs:
+  - "<ref>"
+action_or_decision_needed: "<bounded-action-or-none>"
+response_owner: "<participant-id-or-none>"
+due_or_wake_condition: "<condition-or-none>"
+subscriber_ids:
+  - "<logical-id>"
+delivery_state: "<pending | ambiguous | observed | rejected_wrong_destination | superseded>"

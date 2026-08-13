@@ -27,7 +27,8 @@ Use an ordinary task for a self-contained answer or bounded change.
    ownership.
 4. Every action has one owner, one scope, one evidence condition, and one
    decision owner.
-5. Every nonterminal lane has a next action, owner, and wake condition.
+5. Every nonterminal lane has a durable liveness edge: an action owner, future
+   wake, pending decision, reopening event, or bounded delivery repair.
 6. Durable state outranks recent conversation context.
 7. Failures update an append-only search map; they are not erased or blindly
    repeated.
@@ -40,26 +41,36 @@ Use an ordinary task for a self-contained answer or bounded change.
     work continues.
 12. Governance overhead MUST remain smaller than the work needed to obtain the
     first valid evidence.
+13. Logical participant identity and current transport binding MUST come from a
+    versioned durable roster, not remembered conversation prose.
+14. Bounded work is not communication-complete until its required terminal event
+    reaches the decision owner and declared dependency subscribers.
 
-## 3. Roles and authority
+## 3. Three governance levels, roles, and authority
 
-| Role | Owns | MUST NOT own alone |
+Only G0, G1, and G2 are governance levels. Each is normally a durable
+conversation. The sponsor is external authority; a subagent is a bounded
+execution primitive inside one G2, not a fourth level.
+
+| Actor or level | Owns | MUST NOT own alone |
 | --- | --- | --- |
 | Sponsor | desired outcome, hard constraints, external authority | experiment details |
-| Supervisor | charter integrity, manager audit, completion decision | routine implementation |
-| Manager | research portfolio, leases, prioritization, pivot/retire/scale decisions | implementation or sole validation |
-| Research lane | one question or coherent hypothesis family | peer direction, portfolio policy, final acceptance |
-| Atomic unit or subagent | one bounded deliverable | a durable research direction or resource reassignment |
-| Reproducer | independent recreation of a frozen result | method validity or acceptance |
-| Validation critic | estimand, comparison, leakage, statistics, claim-tier review | intervention advocacy |
-| Hostile referee | strongest falsification attempt against a material claim | acceptance or resource allocation |
-| Synthesizer | claim-to-evidence map, negative results, dissent, limits | claim upgrading or evidence reclassification |
+| G0 supervisor | human gateway, charter/authority, governance maintenance, G1 audit/repair/replacement, completion | routine implementation |
+| G1 manager | goal control, portfolio, leases, participant roster, dependencies, arbitration, prioritization | implementation, sole validation, or routine message relay |
+| G2 role/task conversation | one concrete research, implementation, reproduction, criticism, adjudication, or synthesis responsibility | peer scope, portfolio policy, final acceptance |
 
-The manager MUST use a persistent research conversation when work owns a
-hypothesis family, multi-turn state, a resource lease, or a separately auditable
-outcome. A subagent is appropriate only for a bounded deliverable returned to
-an accountable parent. If a subagent grows into an independent direction, its
-parent MUST stop expanding it and request a normal lane and lease.
+An optional watchdog is a restricted G0 maintenance function, not extra
+authority. A G2 MAY invoke subagents for bounded returned deliverables. Work that
+becomes independent, long-lived, lease-owning, or separately auditable MUST be
+promoted to a G2 conversation.
+
+Every G2 or subagent commission separates `functional_role`,
+`professional_lens`, `owned_question`, `deliverable`, and `decision_scope`.
+Lenses may include product, software, algorithms, data/statistics, mathematics,
+domain science, operations, safety, or security. Add a lens only when it changes
+mechanisms, risks, evidence, or tests; titles and head count are not votes. A G2
+adjudicator may close one predeclared bounded technical/evidence dispute. G1
+retains cross-task/resource/portfolio arbitration; G0 retains goal and authority.
 
 ## 4. Independent autonomy and non-blocking progress
 
@@ -133,6 +144,10 @@ classification, or decision merely because it is newer or longer. A material
 idea, disagreement, result, or decision that exists only in conversation MUST
 be compacted into C2 and reflected in C3 before portfolio action.
 
+Each durable role owns a compact memory snapshot containing identity, lease,
+event cursor, material findings, dependencies, contacts, commitments, and next
+action. It is a recovery index, not a transcript or evidence replacement.
+
 See [docs/context.md](docs/context.md).
 
 ## 7. Launch gate
@@ -148,7 +163,9 @@ Before creating research lanes, the supervisor MUST freeze:
 - exploration breadth, retry/pivot, and search-reset policies;
 - role-separation and extraordinary-claim review rules;
 - model-routing, verifier, and automatic-escalation rules;
-- context, reporting, escalation, and completion policies.
+- context, reporting, escalation, and completion policies;
+- participant roster, direct-routing, dependency/completion notification, role
+  memory, and watchdog wake policies.
 
 Candidate directions are hypotheses, not commands. Missing details that remain
 inside delegated authority SHOULD be tested rather than escalated.
@@ -219,13 +236,14 @@ impossible. Retirement claims MUST be limited to the scope actually tested.
 
 Every collaboration begins with a packet containing:
 
-- contribution role and one owned question;
+- functional contribution role, professional lens, one owned question, and
+  bounded decision scope;
 - bounded deliverable and output contract;
 - input refs and deliberately withheld context;
 - independence group and context-exposure rule;
 - allowed files/resources and forbidden actions;
 - deadline or stop condition;
-- discussion route and decision owner.
+- discussion route, decision owner, dependencies, and completion subscribers.
 
 Collaboration follows this sequence:
 
@@ -237,7 +255,10 @@ Collaboration follows this sequence:
 6. **Synthesize** accepted, negative, and unresolved evidence without changing
    dispositions.
 
-Peer messages MUST NOT retask another lane, borrow a lease, or grant authority.
+Scoped peers MAY communicate directly for evidence, dependencies, review,
+discussion, handoff, and completion. Peer messages MUST NOT retask another lane,
+borrow a lease, or grant authority. G1 receives management deltas, not every
+routine message.
 Material disagreement MUST remain durable. If discussion produces opinion but
 not evidence, the decision owner SHOULD commission the smallest discriminating
 test or close the issue as unresolved.
@@ -297,28 +318,31 @@ constraints or create external authority.
 
 Runtime coordination is event-driven, not polling-driven.
 
-A lane wakes the manager only for launch, material result, invalidation,
-discussion resolution, independent review, true blocker, challenge, terminal
-disposition, or a decision boundary. Messages carry changed fields and evidence
-refs, not full histories. Duplicate events are idempotently dropped.
+A role sends launch, material result, dependency, invalidation, review,
+challenge, handoff, completion, or decision events directly to declared
+recipients and subscribers. Messages carry current roster identity, changed
+fields, and evidence refs. Recipients verify destination and drop duplicates.
 
 Unchanged monitoring is silent. Long work exposes a durable expected-evidence
-condition and proportional heartbeat. A periodic supervisor is a bounded
-fallback auditor, not a second manager.
+condition and proportional heartbeat. A periodic G0 watchdog is a bounded
+fallback auditor, not a second manager. It repairs unobserved completion and
+all-idle faults by waking the minimum authorized G2, G1, or G0 target set.
 
 For task creation, ambiguous delivery, validation epochs, progress accounting,
 conversation lifecycle, and finalization controls, load
 [docs/operational-controls.md](docs/operational-controls.md) only at the
-corresponding event.
+corresponding event. Identity, direct communication, completion, role memory,
+and watchdog rules are in
+[docs/communication-liveness.md](docs/communication-liveness.md).
 
 ## 14. Recovery
 
 After compaction, restart, or handoff, a task reads only:
 
-1. C0 campaign anchor;
-2. its C1 lease;
-3. its latest C3 checkpoint;
-4. relevant C2 deltas since that checkpoint;
+1. current roster self-binding/contact slice and role memory;
+2. C0 campaign anchor and its C1 lease;
+3. latest C3 checkpoint;
+4. relevant post-cursor C2/events;
 5. artifacts required for the next action.
 
 It then verifies objective, scope, attempt lineage, retry state, alternatives,
@@ -360,8 +384,10 @@ completion by themselves.
 The minimum viable control plane is:
 
 - one campaign file;
+- one versioned participant roster and dependency/subscription map;
 - one task map;
 - one current checkpoint per active lane;
+- one role-memory snapshot per durable participant;
 - one append-only evidence/decision stream;
 - referenced experiment artifacts.
 

@@ -1,0 +1,28 @@
+schema_version: 1
+campaign_id: "<id>"
+roster_version: 1
+roster_hash: "<canonical-hash>"
+writer_participant_id: "<g0-initializer-or-g1-writer-logical-id>"
+
+participants:
+  - participant_id: "<stable-logical-id>"
+    level: "<G0 | G1 | G2>"
+    function: "<human_supervisor | watchdog | manager | task_role>"
+    functional_role: "<investigate | explore | implement | reproduce | challenge | adjudicate | synthesize | none>"
+    professional_lens: "<product | software | algorithm | data | mathematics | domain | operations | safety | security | none>"
+    decision_scope: "<recommend_only | bounded_technical | management | authority | none>"
+    task_id: "<verified-current-id>"
+    conversation_id: "<verified-current-id-or-none>"
+    binding_epoch: 1
+    scope_epoch: 1
+    status: "<active | awaiting | queued | blocked | retired | replaced>"
+    owned_scope: "<compact-scope>"
+    capabilities:
+      - "<capability>"
+    contact_topics:
+      - "<topic>"
+    checkpoint_ref: "<ref>"
+    role_memory_ref: "<ref>"
+    inbox_cursor: "<event-id-or-none>"
+    binding_readback_ref: "<ref>"
+    supersedes_binding_ref: "<ref-or-none>"

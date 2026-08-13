@@ -33,6 +33,8 @@ Fill [the campaign template](../templates/campaign.yaml). The supervisor checks:
    tasks sealed by an objective verifier and escalation rule?
 10. Is there one human-facing authority gateway?
 11. Can the control plane be maintained without delaying first evidence?
+12. Are the participant roster, direct-routing, dependency subscriptions,
+    terminal notifications, role memories, and watchdog targets configured?
 
 If a missing answer changes authority or the objective, ask the sponsor one
 compact question. Delegate or test ordinary uncertainty.
@@ -43,18 +45,22 @@ in-lease work.
 
 ## 3. Start the hierarchy
 
-### Supervisor
+### G0 supervisor
 
 The sponsor starts exactly one supervisor with
 [prompts/supervisor.md](../prompts/supervisor.md). The supervisor freezes the
-campaign and creates exactly one manager. Both use the highest available
-capability and reasoning effort because they govern objectives, correction,
+campaign and creates exactly one G1 manager. It owns the human gateway,
+functional governance maintenance, G1 audit/repair/replacement, and completion.
+Both use the highest available capability and reasoning effort because they
+govern objectives, correction,
 portfolio choices, and completion.
 
-### Manager
+### G1 manager
 
 The manager receives [prompts/manager.md](../prompts/manager.md), the campaign,
-and the task map. It creates no more active research lanes than:
+participant roster, task/dependency map, and its role memory. It owns goal
+control, leases, routing directory, portfolio, and cross-task arbitration. It is
+not a routine message relay. It creates no more active G2 conversations than:
 
 ```text
 min(
@@ -65,22 +71,29 @@ min(
 )
 ```
 
-### Research lanes
+### G2 role/task conversations
 
-Each lane receives:
+Each G2 receives:
 
 - [prompts/researcher.md](../prompts/researcher.md);
+- its verified self-binding and required contact slice;
+- its role-memory snapshot;
 - one [task lease](../templates/task-lease.yaml);
 - one current checkpoint;
 - only the contracts and evidence needed for its next experiment.
 
-Distinct lanes MUST have distinct questions and mutable-state ownership. Related
-work in one coherent lane SHOULD reuse its conversation. Research lanes use the
-highest available capability and reasoning effort.
+Distinct lanes MUST have distinct questions or contribution responsibilities and
+mutable-state ownership. A lease separates functional role, professional lens,
+owned question, deliverable, and decision scope. Related work in one coherent
+lane SHOULD reuse its conversation. G2 roles use the highest available capability
+and reasoning effort and may invoke subagents only for bounded returned outputs.
 
 ### Contributors and reviewers
 
 Bounded contributors receive a collaboration packet, not a campaign transcript.
+Product, software, algorithm, data/statistics, mathematics, domain, operations,
+safety, or security lenses are assigned only when they produce distinct
+mechanisms, risks, evidence, or tests. They are not votes.
 Reviewers receive [prompts/reviewer.md](../prompts/reviewer.md), the frozen
 claim, evaluation contract, identities, and evidence refs. They do not receive
 unnecessary proposer advocacy. Reviewers and hostile referees use the highest
@@ -123,13 +136,15 @@ Every completed lane turn ends with one lifecycle disposition:
 
 | Disposition | Required state |
 | --- | --- |
-| `reuse` | same lane, one next action and wake condition |
-| `queue` | no ready safe action, scarce lease released, wake condition recorded |
+| `reuse` | same lane, one next action/owner and wake condition |
+| `queue` | no ready safe action, scarce lease released, wake condition/target recorded |
 | `retire` | evidence and reopen condition preserved, resource considered for reallocation |
 | `rotate` | context/isolation reason, durable handoff, atomic lease transfer |
 
-An idle conversation is not a retired lane. A nonterminal lane without a next
-owner is governance drift.
+An idle conversation is not a retired lane. A nonterminal lane without an action
+owner, future wake, pending decision, reopening subscriber, or bounded delivery
+repair is governance drift. Before idle, bounded work persists its result and
+sends the required terminal event to its commissioner and subscribers.
 
 Creation, ambiguous delivery, validation-scale, and evidence-finalization
 events use the corresponding section of
@@ -138,7 +153,7 @@ that whole guide.
 
 ## 6. Event-driven management
 
-The manager wakes only for a material event:
+The manager wakes only for a material management event:
 
 - launch;
 - valid result or invalidation;
@@ -146,10 +161,20 @@ The manager wakes only for a material event:
 - true blocker or challenge;
 - terminal lane disposition;
 - overdue declared evidence condition;
-- sponsor control message.
+- sponsor control message;
+- roster, dependency, missing-ownership, or completion-delivery change.
 
-It processes a bounded event batch, persists decisions, sends follow-ups once,
-and returns to idle. It does not poll full child histories.
+Peers send scoped evidence, dependency, review, discussion, handoff, and
+completion events directly. The manager processes a bounded event batch,
+persists decisions, verifies the campaign still has a liveness edge, sends
+follow-ups once, refreshes its memory, and returns to idle. It does not poll full
+child histories.
+
+An optional recurring G0 watchdog uses
+[the watchdog prompt](../prompts/watchdog.md) and
+[communication/liveness rules](communication-liveness.md). It reads bounded
+durable state and wakes the minimum authorized G2, G1, or G0 target set only for
+a material liveness, identity, routing, or completion fault.
 
 ## 7. Finish
 

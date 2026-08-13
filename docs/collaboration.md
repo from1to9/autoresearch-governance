@@ -11,6 +11,7 @@ groupthink, or a vote.
 | Lead investigator | Can this mechanism work? | experiments, evidence, recommendation |
 | Idea scout | What distinct mechanisms are plausible? | deduplicated idea cards |
 | Alternative explorer | What does an orthogonal route show? | bounded result and reopen condition |
+| Experiment operator or bounded coder | Can the frozen intervention be implemented and run correctly? | verified artifact/run and deviations |
 | Reproducer | Does the frozen result recur? | independent result and deviations |
 | Validation critic | Is the method allowed to support the claim? | method disposition |
 | Hostile referee | What would make the strongest claim wrong? | falsifications and unresolved risks |
@@ -20,11 +21,30 @@ These are contribution roles, not authority levels. Team size follows
 uncertainty, independence, resources, and review risk. Do not create agents to
 manufacture confidence.
 
+## Functional roles and professional lenses
+
+Separate the functional contribution from the professional lens:
+
+```text
+functional_role + professional_lens + owned_question + deliverable + decision_scope
+```
+
+Functional roles include investigate, explore, implement, reproduce, challenge,
+adjudicate, and synthesize. Lenses may include product, software engineering,
+algorithm engineering, data analysis/statistics, mathematics, domain science,
+operations, safety, or security.
+
+Add a lens only when it introduces a distinct mechanism, risk, estimand,
+boundary, or falsifying test. One participant may combine compatible lenses when
+independence is unnecessary. Otherwise freeze separate first passes before
+exchange. A profession, persona, confidence, or head count is never evidence.
+
 ## Commissioning packet
 
 Before work starts, freeze:
 
 - contribution role;
+- professional lens and bounded decision scope;
 - one owned question;
 - bounded deliverable;
 - input refs;
@@ -38,7 +58,8 @@ Before work starts, freeze:
 - automatic escalation conditions;
 - stop or due condition;
 - discussion route;
-- decision owner.
+- decision owner;
+- required dependency events and completion subscribers.
 
 Independence never permits hiding safety rules, constraints, estimands, or
 inputs required for reproducibility. Blindness removes advocacy and anchoring,
@@ -67,6 +88,11 @@ Open one bounded discussion record containing:
 Participants may question evidence. They may not retask peers, change leases,
 or turn direct messages into authority.
 
+G2 role conversations may exchange evidence, dependency readiness,
+reproduction, critique, challenge, discussion, handoff, and completion events
+directly through verified roster contacts. They send G1 only portfolio, lease,
+resource, roster, validation, route, arbitration, or completion deltas.
+
 ### 3. Adversarial pass
 
 A fresh reviewer attacks the strongest surviving claim and the evaluator. The
@@ -75,9 +101,12 @@ boundary failures, and unjustified generalization.
 
 ### 4. Adjudication
 
-The named manager or supervisor maps evidence to a predeclared decision. It may
-disagree with every contributor. It may not substitute rank, confidence,
-consensus, or user enthusiasm for missing evidence.
+A named G2 adjudicator may close one bounded technical/evidence dispute when its
+packet freezes the question, evidence boundary, rule, and decision scope. G1
+retains cross-task, portfolio, lease, resource, and priority arbitration; G0
+retains goal, authority, manager-maintenance, and completion decisions. The
+applicable owner may disagree with every contributor but may not substitute
+rank, professional title, confidence, consensus, or user enthusiasm for evidence.
 
 ### 5. Synthesis
 
@@ -151,6 +180,11 @@ Every material decision names:
 - next action and next review condition.
 
 The number of agents on each side is deliberately absent.
+
+Before ending, every bounded contribution persists its output and sends one
+terminal event directly to its commissioner, decision owner, and every declared
+dependency subscriber whose condition fired. Compute completion without this
+event is communication-incomplete.
 
 ## Non-blocking review contract
 

@@ -1,7 +1,10 @@
 schema_version: 1
 campaign_id: "<id>"
 campaign_hash: "<hash>"
+participant_id: "<stable-logical-id>"
 task_id: "<id>"
+binding_epoch: 1
+roster_version_seen: 1
 scope_epoch: 1
 checkpoint_seq: 1
 reason: "<event>"
@@ -50,6 +53,13 @@ ownership:
   next_action: "<one action>"
   wake_condition: "<event or deadline>"
 
+communication:
+  event_cursor: "<last-applied-event-id-or-none>"
+  required_completion_deliveries:
+    - "<message-id and state>"
+  dependency_subscriptions:
+    - "<compact-edge>"
+
 context_health:
   campaign_match: true
   scope_match: true
@@ -59,3 +69,4 @@ context_health:
   role_separation_valid: true
   evidence_refs_resolve: true
   next_action_supported: true
+  identity_binding_valid: true

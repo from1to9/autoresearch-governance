@@ -17,6 +17,7 @@ REQUIRED = {
     "CONTRIBUTING.md",
     "docs/launch.md",
     "docs/context.md",
+    "docs/communication-liveness.md",
     "docs/collaboration.md",
     "docs/model-routing.md",
     "docs/operational-controls.md",
@@ -27,6 +28,7 @@ REQUIRED = {
     "prompts/researcher.md",
     "prompts/reviewer.md",
     "prompts/recovery.md",
+    "prompts/watchdog.md",
     "prompts/lightweight-worker.md",
     "templates/campaign.yaml",
     "templates/task-lease.yaml",
@@ -35,6 +37,9 @@ REQUIRED = {
     "templates/checkpoint.yaml",
     "templates/discussion.yaml",
     "templates/decision.yaml",
+    "templates/participant-roster.yaml",
+    "templates/role-memory.yaml",
+    "templates/event.yaml",
 }
 
 FORBIDDEN = {

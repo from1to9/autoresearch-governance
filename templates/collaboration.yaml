@@ -1,9 +1,12 @@
 schema_version: 1
 collaboration_id: "<id>"
 campaign_id: "<id>"
-commissioner: "<role and task id>"
-assignee: "<role and task id>"
-contribution_role: "<idea_scout | alternative_explorer | reproducer | validation_critic | hostile_referee | synthesizer>"
+commissioner: "<participant and task id>"
+assignee: "<participant and task id>"
+roster_version: 1
+contribution_role: "<lead_investigator | idea_scout | alternative_explorer | experiment_operator | bounded_coder | reproducer | validation_critic | hostile_referee | bounded_adjudicator | synthesizer>"
+professional_lens: "<product | software | algorithm | data | mathematics | domain | operations | safety | security | none>"
+decision_scope: "<recommend_only | bounded_technical_adjudication | none>"
 
 owned_question: "<one question>"
 deliverable: "<bounded output>"
@@ -31,4 +34,9 @@ output_contract: "<schema or artifact>"
 stop_or_due_condition: "<condition>"
 discussion_route: "<parent-owned route>"
 decision_owner: "<role and task id>"
+requires_event_ids:
+  - "<dependency-event-id or none>"
+completion_subscribers:
+  - participant_id: "<logical-id>"
+    notify_on: "<completed | invalid | blocked | artifact_ready | resource_released>"
 status: commissioned

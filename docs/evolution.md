@@ -12,6 +12,8 @@ A change needs observed evidence that at least one of these occurred:
 - task creation, messaging, compute, or ownership duplicated;
 - evidence became invalid, unreachable, or misclassified;
 - a role repeatedly loaded irrelevant context or missed required context;
+- a stale participant binding misrouted work, a required completion event was
+  lost, or all roles became idle without a liveness edge;
 - a recurring failure has a smaller testable control;
 - a simplification can measurably reduce latency, context, or overhead while
   preserving authority and evidence validity.
@@ -121,6 +123,12 @@ Exercise scenarios affected by the change, including:
 8. active campaigns retain frozen semantics after a prospective update;
 9. project-specific experience stays local;
 10. a no-benefit change reaches rollback and closes.
+11. a wrong task/conversation binding is rejected and repaired before execution;
+12. a completed small task notifies its declared dependents without G1 relay;
+13. all-idle nonterminal state wakes the minimum authorized G2/G1/G0 set;
+14. each durable role recovers from its own memory and event cursor;
+15. functional roles and professional lenses produce distinct tests without
+    exceeding decision scope or becoming votes.
 
 Repository validation proves structural consistency, not operational benefit.
 Retaining a material change also requires evidence tied to its defect record.

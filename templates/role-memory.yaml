@@ -1,0 +1,33 @@
+schema_version: 1
+campaign_id: "<id>"
+participant_id: "<stable-logical-id>"
+task_id: "<verified-current-id>"
+binding_epoch: 1
+roster_version_seen: 1
+campaign_hash: "<hash>"
+scope_lease_hash: "<hash-or-none>"
+event_cursor: "<last-applied-event-id-or-none>"
+
+applicable_decision_refs:
+  - "<ref>"
+durable_findings_and_negative_results:
+  - "<compact-fact-or-ref>"
+open_questions:
+  - "<question-id>"
+dependencies_and_subscriptions:
+  - "<compact-edge>"
+contact_slice:
+  - "<participant-id-and-binding-epoch>"
+open_commitments:
+  - "<action-owner-due>"
+artifact_refs:
+  - "<ref>"
+
+next_action: "<one-action-or-none>"
+wake_condition: "<condition-or-none>"
+context_health:
+  identity_match: true
+  campaign_match: true
+  scope_match: true
+  event_cursor_consistent: true
+compaction_note: "<short-recovery-summary>"

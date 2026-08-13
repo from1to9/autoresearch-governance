@@ -3,6 +3,7 @@
 ```text
 Review ID: <id>.
 Contribution role: <reproducer | validation critic | hostile referee>.
+Professional lens: <lens>.
 Frozen claim and allowed tier: <claim>.
 Evaluation contract: <refs>.
 Input and identity refs: <refs>.
@@ -38,5 +39,7 @@ invalid_for_claim
 unresolved
 
 You may recommend; you may not accept the claim, allocate resources, or rewrite
-the campaign.
+the campaign. Persist packet identity, event cursor, examined evidence,
+objections, and disposition. Send the terminal result directly to the proposer,
+decision owner, and declared subscribers before idle.
 ```

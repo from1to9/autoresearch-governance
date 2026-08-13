@@ -15,11 +15,15 @@ authority:
     - destructive_actions
   supervisor_controls:
     - charter_versions
-    - manager_replacement
+    - functional_governance
+    - manager_audit_repair_replacement
     - completion
   manager_controls:
+    - goal_control
     - portfolio
     - leases
+    - participant_roster
+    - cross_task_arbitration
     - pivot_retire_scale
 
 hard_constraints:
@@ -58,6 +62,7 @@ collaboration:
   independent_first_pass: true
   discussion_rule: freeze_exchange_attack_adjudicate_synthesize
   decision_rule: evidence_not_vote
+  role_design: functional_role_plus_professional_lens
   role_separation: "<policy>"
   extraordinary_claim_triggers:
     - "<trigger>"
@@ -92,6 +97,9 @@ resources:
 
 context:
   runtime_packets_only: true
+  participant_roster_ref: "<local-durable-ref>"
+  role_memory_required: true
+  direct_peer_events: true
   checkpoint_events: "<policy-ref>"
   conversation_rotation: "<policy-ref>"
   interaction_budget: "<policy-ref>"
@@ -101,12 +109,14 @@ governance:
   harness_adapter_ref: "<mapping and validation ref>"
   overhead_budget: "<time or work envelope>"
   operational_controls_ref: docs/operational-controls.md
+  communication_liveness_ref: docs/communication-liveness.md
   evolution_policy_ref: docs/evolution.md
   material_change_requires_independent_review: true
 
 monitoring:
   mode: event_driven
   periodic_audit: "<condition or disabled>"
+  watchdog_wake_policy: minimum_authorized_G2_G1_G0_set
   human_gateway: "<role or task id>"
 
 completion:

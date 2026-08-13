@@ -37,9 +37,11 @@ The protocol separates:
    adapter with [docs/harness-adaptation.md](docs/harness-adaptation.md).
 3. Choose a launch mode with [docs/launch.md](docs/launch.md).
 4. Fill [templates/campaign.yaml](templates/campaign.yaml).
-5. Start the supervisor with [prompts/supervisor.md](prompts/supervisor.md).
-6. Give every runtime role only its prompt, lease, current checkpoint, and
-   referenced evidence.
+5. Start the supervisor with [prompts/supervisor.md](prompts/supervisor.md); it
+   initializes [the participant roster](templates/participant-roster.yaml) while
+   binding G1.
+6. Give every runtime role only its prompt, self-binding/contact slice, role
+   memory, lease, current checkpoint, and referenced evidence.
 
 Do not paste this entire repository into every agent. The launcher and an
 exceptional auditor may read the full specification. Runtime roles use the
@@ -50,17 +52,21 @@ smallest packet that completely defines their action.
 | Role | Load | Do not load by default |
 | --- | --- | --- |
 | Sponsor or launcher | core spec, launch guide, campaign template | experiment logs |
-| Supervisor | frozen campaign, manager snapshot, material decisions | child transcripts |
-| Manager | manager prompt, campaign, task map, compact checkpoints | child reasoning and raw logs |
-| Research lane | researcher prompt, task lease, current checkpoint, one experiment card | peer histories and full governance |
+| G0 supervisor | own memory, frozen campaign, verified G1 binding, manager snapshot | child transcripts |
+| G0 watchdog | watchdog prompt, cursor, roster hash, due/completion index, triggered refs | full roster and transcripts |
+| G1 manager | own memory, campaign, roster/task/dependency maps, compact checkpoints | child reasoning and raw logs |
+| G2 role/task | own binding/contact slice and memory, task lease, checkpoint, one experiment card | unrelated roster and peer histories |
 | Reviewer or referee | reviewer prompt, frozen claim, evaluation contract, evidence refs | proposer advocacy and portfolio history |
-| Recovering task | recovery prompt and durable C0-C3 state | full conversation replay |
+| Recovering task | recovery prompt, self-binding, role memory, durable C0-C3 and event deltas | full conversation replay |
 
 ## Repository map
 
 - [GOVERNANCE.md](GOVERNANCE.md) — normative, compact core.
 - [docs/launch.md](docs/launch.md) — launch modes, gates, and lifecycle.
 - [docs/context.md](docs/context.md) — C0-C4 state model and recovery.
+- [docs/communication-liveness.md](docs/communication-liveness.md) — verified
+  participant identity, direct routing, completion delivery, watchdog wakeups,
+  and role-owned memory.
 - [docs/collaboration.md](docs/collaboration.md) — roles, discussion, dissent,
   review, and decision separation.
 - [docs/model-routing.md](docs/model-routing.md) — high-capability versus
@@ -81,10 +87,10 @@ smallest packet that completely defines their action.
 ## Reference implementation status
 
 The protocol has been tested in Codex for role-scoped context, multiple
-conversations and subagents, independent review, durable recovery, repository
-editing, and automated validation. The repository validator also runs in GitHub
-Actions. This is reference compatibility evidence, not certification of every
-Codex release or of other harnesses.
+conversations and subagents, direct role communication, independent review,
+durable recovery, repository editing, and automated validation. The repository
+validator also runs in GitHub Actions. This is reference compatibility evidence,
+not certification of every Codex release or of other harnesses.
 
 For another harness, give a high-capability agent the
 [adaptation guide](docs/harness-adaptation.md). It may autonomously install the
