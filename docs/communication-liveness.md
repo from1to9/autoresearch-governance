@@ -56,6 +56,8 @@ binds:
 - destination transport IDs resolved from one roster version;
 - scope epoch, event kind, content hash, and evidence refs;
 - action or decision needed, response owner, subscribers, and close condition;
+- whether a reply is required, its due condition, and the declared inquiry
+  owner/route if that reply is not observed;
 - delivery state.
 
 Resolve recipients from the latest roster immediately before sending. Do not
@@ -120,8 +122,9 @@ Before bounded work becomes idle, its owner MUST:
 6. record required deliveries as observed or explicitly ambiguous.
 
 The event may go directly to dependent peers. It does not wait for G1 relay.
-Receipt-only chatter is unnecessary; destination read-back or the recipient's
-later cursor establishes observation.
+Receipt-only chatter is unnecessary for informational events. An event that
+declares `response_required: true` follows the bounded response protocol below;
+delivery read-back alone is not a substantive reply.
 
 Work is computation-terminal but communication-incomplete while a required
 terminal event is neither observed nor reconciled. This does not block unrelated
@@ -140,23 +143,64 @@ Every nonterminal campaign MUST retain at least one durable liveness edge:
 Transport `idle` is healthy when such an edge exists. It is a fault when all
 relevant tasks are idle and durable state has no executable owner, future wake,
 pending condition, or terminal completion. It is also a fault when upstream work
-completed but declared subscribers were not informed.
+completed but declared subscribers were not informed, or when a blocking
+response obligation is overdue without an acknowledgement, progress, blocker,
+or terminal event.
 
 G2 checks its lane before ending a turn. G1 checks the campaign after each event
 batch. A periodic G0 watchdog is an independent fallback, not a second manager.
 
-## 7. Watchdog wake routing
+## 7. Required replies and silence recovery
+
+Questions, decisions, handoffs, and executable requests that cannot safely be
+left unanswered set `response_required: true`. The sender also declares:
+
+- an acknowledgement or first-response due condition proportional to the work;
+- the next evidence/wake condition for intentionally quiet long work;
+- one `inquiry_owner`, normally the commissioner, coordination group, or
+  relevant functional/professional group owner;
+- a compact escalation route drawn from the current roster.
+
+A valid active response is an acknowledgement with current state and next
+evidence condition, a progress/result event, a blocker or bounded decline, or a
+routing rejection. Transport delivery, an idle status, or an old heartbeat is
+not a response. There is no universal timeout: do not interrupt healthy work
+inside its declared evidence window.
+
+When a required response becomes overdue, the watchdog MUST NOT blindly resend
+the original instruction or halt the campaign. It:
+
+1. verifies the recipient binding, event cursor, declared quiet window, and any
+   observable active work;
+2. wakes the declared inquiry owner to ask the silent participant directly with
+   one idempotent `inquiry_request` and a close condition;
+3. wakes G1 if the inquiry owner is absent/unreachable, the response blocks
+   several lanes, or one bounded inquiry also goes unanswered, so G1 can assign
+   another coordinator, reroute, rotate, or replan the smallest affected edge;
+4. wakes G0 only when G1 itself does not respond or requires repair/replacement.
+
+The inquiry owner may be a manager, coordination group, or the corresponding
+product, engineering, algorithm, data, mathematics, review, or other functional
+group named in the roster. Only the dependent edge waits; unrelated authorized
+work continues. Inquiry and escalation events contain no new task authority.
+
+## 8. Watchdog wake routing
 
 Each recurrence reads only its cursor, current roster identity/hash, compact G1
-checkpoint, due/wake index, unobserved required completions, and checkpoints for
-participants implicated by a trigger. It does not poll full transcripts.
+checkpoint, due/wake and required-response indexes, unobserved required
+completions, and checkpoints for participants implicated by a trigger. It does
+not poll full transcripts.
 
 Choose the minimum sufficient target:
 
 - wake **G2** when a registered dependency or due condition is satisfied and its
   existing lease already authorizes the next action;
+- wake the declared **inquiry owner** when a required reply is overdue, so that
+  the commissioner, coordination group, or functional owner actively asks the
+  silent participant;
 - wake **G1** for missing ownership, roster/routing repair, portfolio choice,
-  resource reallocation, retry/pivot, or completion-event reconciliation;
+  resource reallocation, retry/pivot, repeated silence, missing inquiry owner,
+  or completion-event reconciliation;
 - wake **G0** for unreachable or repeatedly misbound G1, charter/authority
   change, manager repair or replacement, completion, or a true human decision;
 - wake several participants only for independent already-owned actions or the
@@ -174,7 +218,7 @@ runs remain silent. Missing one recurrence does not invalidate healthy work.
 Use [the watchdog prompt](../prompts/watchdog.md). If recurrence is unavailable,
 run the same audit manually or on material events.
 
-## 8. Role-owned memory and compaction
+## 9. Role-owned memory and compaction
 
 Every durable G0, G1, G2, reviewer, or long-lived contributor maintains
 [one compact memory snapshot](../templates/role-memory.yaml). The role writes its
@@ -200,13 +244,14 @@ compaction or handoff. After restart, read only the self-binding/contact slice,
 role memory, campaign digest, lease, checkpoint, post-cursor deltas, and
 next-action artifacts. Full transcript replay requires one named conflict.
 
-## 9. Failure repair table
+## 10. Failure repair table
 
 | Failure | Minimum repair |
 | --- | --- |
 | wrong task/conversation ID in roster | quarantine binding, read product state, append corrected version, notify affected roles |
 | instruction sent to wrong task | reject without action; resolve logical recipient and verified binding before one correct send |
 | small task completes silently | persist result; send terminal event directly to commissioner, decision owner, and fired subscribers |
+| required reply is overdue | verify binding/quiet window; wake the declared manager, coordination group, or functional inquiry owner to ask directly; escalate only the affected edge if silence persists |
 | all tasks idle before terminal state | reconcile liveness edges; wake minimum authorized G2/G1/G0 set |
 | G1 becomes a relay bottleneck | restore scoped direct subscriptions; send G1 only management deltas |
 | peer message changes scope | reject scope change, route it to decision owner, retain valid evidence exchange |

@@ -129,6 +129,10 @@ Exercise scenarios affected by the change, including:
 14. each durable role recovers from its own memory and event cursor;
 15. functional roles and professional lenses produce distinct tests without
     exceeding decision scope or becoming votes.
+16. an overdue required reply wakes its declared manager, coordination group,
+    or functional inquiry owner to ask directly, while unrelated work continues;
+17. one unanswered inquiry routes the smallest affected edge to G1, and G0 is
+    woken only if G1 itself is silent or needs repair.
 
 Repository validation proves structural consistency, not operational benefit.
 Retaining a material change also requires evidence tied to its defect record.

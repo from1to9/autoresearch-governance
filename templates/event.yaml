@@ -11,12 +11,19 @@ resolved_destination_conversation_ids:
   - "<verified-id-or-none>"
 roster_version: 1
 scope_epoch: 1
-event_kind: "<launch | result | dependency_ready | invalid | blocked | challenge | review | handoff | completed | routing_error | wake>"
+event_kind: "<launch | result | dependency_ready | invalid | blocked | challenge | review | handoff | completed | routing_error | acknowledgement | progress | inquiry_request | wake>"
 content_hash: "<canonical-hash>"
 evidence_refs:
   - "<ref>"
 action_or_decision_needed: "<bounded-action-or-none>"
 response_owner: "<participant-id-or-none>"
+response_required: false
+response_due_condition: "<condition-or-none>"
+next_evidence_due_condition: "<condition-or-none>"
+inquiry_owner_participant_id: "<manager-coordinator-or-functional-owner-id-or-none>"
+inquiry_route_participant_ids:
+  - "<logical-id>"
+response_state: "<not_required | awaiting | acknowledged | progressing | blocked | completed | overdue | escalated>"
 due_or_wake_condition: "<condition-or-none>"
 subscriber_ids:
   - "<logical-id>"

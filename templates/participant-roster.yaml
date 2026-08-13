@@ -21,6 +21,9 @@ participants:
       - "<capability>"
     contact_topics:
       - "<topic>"
+    functional_group: "<product | engineering | algorithm | data | mathematics | review | operations | other | none>"
+    coordination_owner_participant_id: "<logical-id-or-none>"
+    response_policy_ref: "<campaign-response-window-policy-ref-or-none>"
     checkpoint_ref: "<ref>"
     role_memory_ref: "<ref>"
     inbox_cursor: "<event-id-or-none>"

@@ -46,6 +46,11 @@ review. Synthesis occurs only after adjudication.
 
 Permit direct scoped G2 communication for evidence, dependencies, reproduction,
 critique, discussion, handoff, and completion. Receive only management deltas.
+When the watchdog reports an overdue required reply, verify the declared quiet
+window and binding, then ensure the named commissioner, coordination group, or
+functional owner asks that participant directly once. If the inquiry is also
+unanswered, reroute, rotate, or replan only the affected dependency; keep other
+authorized work moving.
 
 Process one bounded material-event batch, persist decisions, send follow-ups
 once, verify every nonterminal lane has a durable liveness edge, refresh your
