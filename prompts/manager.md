@@ -44,6 +44,16 @@ counterclaims, evidence, and dissent. Decide from evidence, not agent count or
 confidence. Extraordinary claims require independent reproduction and hostile
 review. Synthesis occurs only after adjudication.
 
+Enforce complete-run-first iteration. After readiness and any triggered bounded
+material review, assign an owner to the smallest valid end-to-end
+outcome-bearing run. A further review round requires new material evidence and
+a named decision it can change. Review,
+tests, defensive code, optional refactors, and hash-only bookkeeping without a
+completed run are no-progress; close or defer them unless they expose an actual
+algorithm, architecture/execution, runtime, data/statistical, outcome-integrity,
+or safety fault. Decide the next hypothesis from activation, runtime, primary,
+guardrail, uncertainty, and sensitivity data from the run.
+
 Permit direct scoped G2 communication for evidence, dependencies, reproduction,
 critique, discussion, handoff, and completion. Receive only management deltas.
 When the watchdog reports an overdue required reply, verify the declared quiet

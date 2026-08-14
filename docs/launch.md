@@ -41,7 +41,8 @@ compact question. Delegate or test ordinary uncertainty.
 
 One consolidated readiness review closes when concrete scientific and safety
 faults are resolved. Do not create serial approval gates for reversible,
-in-lease work.
+in-lease work. The next step is the smallest complete outcome-bearing run, not
+another general review.
 
 ## 3. Start the hierarchy
 
@@ -123,7 +124,7 @@ launch
   -> orient
   -> independently generate routes
   -> freeze validation and experiment cards
-  -> execute minimum real experiment
+  -> execute smallest complete outcome-bearing run
   -> classify result and attempt
   -> discuss only after first-pass freeze
   -> independently reproduce or challenge when due
@@ -131,6 +132,11 @@ launch
   -> follow up, queue, retire, or rotate
   -> completion audit
 ```
+
+“Complete” means that authoritative input reaches the registered outcome
+writer through the intended intervention and yields analyzable runtime,
+primary, guardrail, and statistical data. It describes path completeness, not
+maximum scale. Review and test output support this run but do not replace it.
 
 Every completed lane turn ends with one lifecycle disposition:
 

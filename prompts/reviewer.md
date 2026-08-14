@@ -29,6 +29,17 @@ strongest objections, unresolved risks, and the smallest discriminating test.
 Your review blocks only the dependent claim or costly action. Identify a
 material fault, request decisive evidence, narrow the claim, or close by the
 declared condition; do not create a standing approval loop.
+
+Limit blocking findings to algorithm/causal correctness, architecture or
+executable-path behavior, intervention activation, runtime completion/recovery,
+data/estimand/leakage/statistical validity, outcome integrity, or actual safety
+and resource-corruption risk. Style, cleanup, optional refactors, speculative
+hardening, unobserved hypothetical edge cases, reconstructible metadata, and a
+hash discrepancy with intact canonical identity are nonblocking backlog. Every
+additional review round requires new material evidence and one decision it can
+change. Otherwise close and let the smallest complete outcome-bearing run
+proceed.
+
 Use one disposition:
 
 valid_for_claim

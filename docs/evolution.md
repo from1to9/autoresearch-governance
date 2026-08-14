@@ -133,6 +133,12 @@ Exercise scenarios affected by the change, including:
     or functional inquiry owner to ask directly, while unrelated work continues;
 17. one unanswered inquiry routes the smallest affected edge to G1, and G0 is
     woken only if G1 itself is silent or needs repair.
+18. when material review is triggered, it closes and the smallest complete
+    outcome-bearing run starts before any review without new evidence;
+19. hash-only or reconstructible metadata debt warns or backfills without
+    blocking work whose canonical semantic identity and provenance are intact;
+20. defensive machinery without an observed active-path failure and affected
+    result is removed or deferred rather than expanding the mainline.
 
 Repository validation proves structural consistency, not operational benefit.
 Retaining a material change also requires evidence tied to its defect record.

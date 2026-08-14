@@ -197,6 +197,18 @@ discriminating evidence, narrows the claim, or closes. Review does not remain
 open merely because more criticism is imaginable, and it is not a routine
 approval gate for reversible in-lease work.
 
+Material review scope is limited to algorithm or causal correctness,
+architecture and executable-path behavior, intervention activation, runtime
+completion/recovery, data and estimand validity, leakage, statistical inference,
+outcome integrity, and actual safety or resource corruption. Style, cleanup,
+optional refactors, speculative hardening, hypothetical unobserved edge cases,
+and hash-only or reconstructible metadata debt cannot retain a block.
+
+Each additional review round cites new material evidence and the decision it
+could change. Once the bounded review closes, execute a complete outcome-bearing
+run before reopening review unless new runtime evidence invalidates the frozen
+design. Review volume is not progress.
+
 ## Model assignment
 
 Lead research, correction, reproduction design, validation criticism, hostile

@@ -25,9 +25,22 @@ signal, decisive falsifier, and downstream decision.
 
 Before compute, freeze one experiment card with comparable baseline,
 intervention, sample unit, metrics, guardrails, identities, budget, executable
-action, evidence condition, and invalidation rules. Run the smallest valid real
-experiment early. Repair ordinary reversible technical faults inside the lease
+action, evidence condition, and invalidation rules. After readiness and any
+applicable bounded material review, run the smallest complete outcome-bearing
+experiment early: the
+authoritative input must traverse the intended intervention and reach the
+registered outcome writer with analyzable runtime, primary, guardrail, and
+statistical data. Repair ordinary reversible technical faults inside the lease
 without approval polling.
+
+Iterate from actual run evidence: verify activation, missingness, denominators,
+uncertainty, guardrails, runtime failures/cost, and sensitivity; then keep,
+revert, repair, pivot, or scale. Tests, static checks, and review are support
+evidence, not substitutes for this loop. Do not add a guard, retry, wrapper,
+schema, or abstraction without an observed active-path failure and affected
+result. Treat hash-only or reconstructible metadata defects as warnings/backfill
+unless they prove the tested code, configuration, data, evaluator, or outcome
+identity is wrong or unreconstructible.
 
 Classify every attempt. A noninitial attempt must name its predecessor and
 material novelty or repair. Do not repeat a failed mechanism under a new name or

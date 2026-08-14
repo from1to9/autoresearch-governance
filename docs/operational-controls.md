@@ -168,6 +168,44 @@ evidence-backed architecture, data, resource, or authority blocker. More cards,
 audits, tests, or defensive code without outcome evidence are governance
 no-progress.
 
+### Complete-run-first iteration
+
+A complete run is the smallest valid end-to-end execution that applies the
+intended change to authoritative inputs and reaches the registered outcome
+writer with analyzable primary, guardrail, runtime, and statistical outputs. It
+is complete in causal and execution path, not necessarily large in scale.
+
+Use this default loop:
+
+1. freeze one falsifiable hypothesis and one major change while holding
+   unrelated axes fixed;
+2. when a material-risk trigger applies, perform at most one bounded review for
+   validity or executable-path faults; otherwise run immediately;
+3. run the smallest complete outcome-bearing experiment;
+4. analyze activation, missingness, denominators, uncertainty, guardrails,
+   runtime cost/failure, and result sensitivity from the actual run;
+5. keep, revert, repair, pivot, or scale from that evidence.
+
+Tests, static checks, and code review enable a run; they never substitute for
+one. After the bounded review closes, another pre-run review requires new
+material evidence and a named affected decision. Repeated review rounds without
+a completed valid run are no-progress.
+
+| May block the affected run or claim | Does not block by itself |
+| --- | --- |
+| wrong algorithm or causal mapping; architecture bypasses the intervention; intervention not applied; runtime cannot complete or recover; wrong input or evaluator; leakage, corruption, invalid estimand, denominator, independence assumption, or statistical test; unrecoverable outcome; actual safety or resource-corruption risk | style, cleanup, optional refactor; speculative hardening; hypothetical edge cases, retries, wrappers, schemas, or abstractions not observed on the active path; optional or reconstructible metadata; descriptive hash drift while canonical identity remains intact; unrelated baseline defects |
+
+A hash is an integrity check, not the scientific subject. It blocks only when
+evidence shows the wrong canonical code, configuration, data, evaluator, or
+payload; contamination or corruption; or provenance too damaged to reconstruct
+the tested run. Otherwise record a warning, bind semantic identity, backfill at
+a safe boundary, and continue. Never repeat valid compute solely to improve a
+hash or optional metadata.
+
+Every new guard, retry, wrapper, schema, or abstraction names the observed
+active-path failure, affected result, and removal or falsification condition.
+Without those fields, defer it rather than expanding the mainline.
+
 ## 6. Post-launch continuity
 
 Do not interrupt healthy expensive work for reconstructible audit debt:
@@ -346,6 +384,9 @@ Do not concatenate child logs.
 | ambiguous instruction is resent | read destination; retry one identical tuple only after absence |
 | invalid evidence repeats | quarantine affected claims and repair the smallest method boundary |
 | review becomes an approval loop | require one concrete material fault or close it |
+| reviews repeat while no complete run finishes | close review, freeze one candidate, and execute the smallest valid end-to-end path |
+| defensive engineering expands beyond an observed mainline failure | remove or defer speculative machinery; keep the smallest evidence-linked repair |
+| a hash-only discrepancy blocks valid work | verify canonical semantic identity and provenance; warn or backfill unless the tested subject is actually wrong or unreconstructible |
 | challenge becomes a stalling tactic | require new evidence and close duplicate objections by lineage |
 | completed lane becomes unowned | choose reuse, queue, retire, or gated rotation |
 | one blocker stops the campaign | narrow the blocked scope and advance safe alternatives |
