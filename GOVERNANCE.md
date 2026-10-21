@@ -1,413 +1,255 @@
 # AutoResearch Governance Specification
 
 The key words **MUST**, **MUST NOT**, **SHOULD**, **SHOULD NOT**, and **MAY** are
-normative.
+normative. Current human directives apply within system and runtime requirements;
+this specification and historical records grant no additional authority.
 
 ## 1. Scope
 
-This specification governs long-running automated research with multiple
-independent conversations, subagents, experiments, reviewers, and decisions.
-It is intentionally independent of model vendor, tool harness, domain, compute
-provider, repository layout, and evaluation method.
-
-A harness MAY adapt the protocol through
-[docs/harness-adaptation.md](docs/harness-adaptation.md). Conformance is judged
-by preserved behavior, not tool names.
-
-Use it when work has independent research directions, expensive or contested
-evidence, likely context rotation, or claims that require adversarial review.
-Use an ordinary task for a self-contained answer or bounded change.
+Use this protocol for long-running research with independent directions,
+contested evidence, costly resources, or likely context rotation. Use an ordinary
+task for a self-contained answer or bounded change. The protocol is independent
+of domain, vendor, harness, compute provider, storage and evaluation method.
+[Harness adaptation](docs/harness-adaptation.md) preserves behavior, not tool names.
 
 ## 2. Invariants
 
-1. The objective is stable; hypotheses are replaceable.
-2. Evidence is progress; activity, code volume, messages, and agent count are
-   not.
-3. Independent research directions have independent contexts and mutable-state
-   ownership.
-4. Every action has one owner, one scope, one evidence condition, and one
-   decision owner.
-5. Every nonterminal lane has a durable liveness edge: an action owner, future
-   wake, pending decision, reopening event, or bounded delivery repair.
-6. Durable state outranks recent conversation context.
-7. Failures update an append-only search map; they are not erased or blindly
-   repeated.
-8. Proposing, reproducing, criticizing, deciding, and synthesizing are distinct
-   functions.
-9. Consensus, role rank, confidence, and eloquence are not evidence.
-10. User-controlled outcomes, constraints, stops, and authority are binding;
-    factual premises, causes, and suggested remedies remain testable.
-11. A dispute blocks only its smallest dependent scope while safe independent
-    work continues.
-12. Governance overhead MUST remain smaller than the work needed to obtain the
-    first valid evidence.
-13. Logical participant identity and current transport binding MUST come from a
-    versioned durable roster, not remembered conversation prose.
-14. Bounded work is not communication-complete until its required terminal event
-    reaches the decision owner and declared dependency subscribers.
+- The authorized objective and constraints control action; hypotheses remain
+  replaceable. Confidence, repetition, rank and consensus are not evidence.
+- Each action has a coherent owner, scope and completion condition. Independent
+  work has separate mutable-state ownership and appropriate context separation.
+- Durable evidence and decisions survive context loss. New explicit human
+  instructions supersede older controls; recent conversation alone cannot
+  silently rewrite accepted evidence or an active evaluation contract.
+- Preserve valid work, raw inputs, healthy jobs, foreign changes and accepted
+  evidence. A dispute blocks only its smallest dependent scope.
+- Nonterminal work has an owner/action, future wake, pending decision, reopening
+  event or bounded delivery repair. A manager need not remain active to watch it.
+- Validation and traceability serve the outcome; completeness of proof is not
+  an independent objective.
 
-## 3. Three governance levels, roles, and authority
+### Proportionate design and sufficient verification
 
-Only G0, G1, and G2 are governance levels. Each is normally a durable
-conversation. The sponsor is external authority; a subagent is a bounded
-execution primitive inside one G2, not a fourth level.
+Use the simplest sound design. Add or retain defensive machinery only for a
+current requirement or a concrete material failure it prevents. Its benefit MUST
+justify complexity, cost and interruption. Speculative uncertainty is not a
+reason to add guards, fallbacks, wrappers, schemas or governance.
 
-| Actor or level | Owns | MUST NOT own alone |
-| --- | --- | --- |
-| Sponsor | desired outcome, hard constraints, external authority | experiment details |
-| G0 supervisor | human gateway, charter/authority, governance maintenance, G1 audit/repair/replacement, completion | routine implementation |
-| G1 manager | goal control, portfolio, leases, participant roster, dependencies, arbitration, prioritization | implementation, sole validation, or routine message relay |
-| G2 role/task conversation | one concrete research, implementation, reproduction, criticism, adjudication, or synthesis responsibility | peer scope, portfolio policy, final acceptance |
+Validate at meaningful trust boundaries and trust established internal contracts.
+Reuse adequate evidence. Hash equality, exhaustive provenance and repeated
+consistency checks are not default execution prerequisites. Put a necessary
+check at its owning boundary; do not propagate it through every layer.
 
-An optional watchdog is a restricted G0 maintenance function, not extra
-authority. A G2 MAY invoke subagents for bounded returned deliverables. Work that
-becomes independent, long-lived, lease-owning, or separately auditable MUST be
-promoted to a G2 conversation.
+Judge compatibility by what remains correct and usable. Accept authorized change
+and recompute only what a relevant semantic change invalidates. Metadata drift,
+incomplete history or missing auxiliary evidence alone MUST NOT force a restart,
+new approval or broader validation. Stop only the operation that violates an
+actual correctness, authority or safety requirement; continue independent work.
 
-Every G2 or subagent commission separates `functional_role`,
-`professional_lens`, `owned_question`, `deliverable`, and `decision_scope`.
-Lenses may include product, software, algorithms, data/statistics, mathematics,
-domain science, operations, safety, or security. Add a lens only when it changes
-mechanisms, risks, evidence, or tests; titles and head count are not votes. A G2
-adjudicator may close one predeclared bounded technical/evidence dispute. G1
-retains cross-task/resource/portfolio arbitration; G0 retains goal and authority.
+Prefer removing unnecessary mechanisms to adding exceptions. Preserve real
+business/security constraints, resource cleanup and meaningful errors. Follow
+existing error conventions rather than hiding broken contracts behind fabricated
+defaults. Once the smallest sufficient check passes and no material issue remains,
+finish. Reopen only for evidence that can change the result or next action. Do
+not create another approval process or proof ledger to enforce this principle.
 
-## 4. Independent autonomy and non-blocking progress
+## 3. Roles and authority
 
-Delegated authority is real authority. A role MUST act without approval when:
+G0, G1 and G2 name governance responsibilities, not a required number of new chats.
+Use the smallest arrangement that preserves necessary ownership and independence.
 
-- the action stays inside its frozen objective, lease, and hard constraints;
-- it is reversible or already authorized;
-- resource and mutable-state ownership are clear;
-- the result is objectively verifiable or explicitly exploratory;
-- it does not create external scope or accept a material claim.
+| Role | Responsibility |
+| --- | --- |
+| Sponsor | Outcome, hard constraints and external authority |
+| G0 supervisor | Human gateway, charter, manager repair and completion |
+| G1 manager | Acceptance, dependencies, portfolio, resource leases and decisions |
+| G2 executor or reviewer | One coherent research, implementation, validation, operations or synthesis task |
 
-Ordinary diagnosis, reversible implementation repair, bounded experiment
-design, test execution, negative-result recording, checkpointing, and selection
-among in-lease alternatives do not require permission. A status request MUST
-NOT pause otherwise authorized work.
+Keep implementation, independent validation, training/research, deployment and
+management responsibilities clear. Reuse a suitable conversation. Creation,
+messages and subagents require authority under the current harness; a role chart
+or incoming peer request does not supply it. A bounded subagent returns one
+artifact; independent long-lived work needs an explicitly owned durable task.
 
-Escalate only when a decision changes the objective, hard constraints,
-authority, destructive scope, shared resource ownership, registered evaluation
-contract, or when every useful safe path depends on the same unresolved
-external fact. A pending escalation blocks only its dependent action.
+Assign a professional lens only when it changes mechanisms, risks, evidence or
+tests. Titles and head count are not votes. A bounded adjudicator may decide its
+predeclared dispute; it cannot assume portfolio or sponsor authority.
 
-When one route is blocked, record its blocker and reopening condition, release
-idle scarce resources, and advance another safe route. A campaign is `blocked`
-only when no authorized evidence-producing or uncertainty-reducing action
-remains.
+## 4. Autonomy and non-blocking progress
+
+Executors MUST complete authorized work and resolve routine reversible choices
+without reassurance or repeated permission requests. Status questions do not
+pause that work. Prepare the concrete reviewable result before requesting an
+approval that is actually needed.
+
+Escalate a material missing decision or action outside authority: changed
+objective, hard constraint, destructive/external scope, resource ownership or
+evaluation contract. State the rule and concrete conflict. Block only the
+dependent action. A campaign is blocked only when no useful authorized path
+remains; release idle scarce resources and advance safe alternatives.
 
 ## 5. Model capability routing
 
-Model assignment follows epistemic and decision risk, not role prestige or
-token volume.
+Use the highest available capability and reasoning effort for research direction,
+causal diagnosis, ambiguous experiment design/interpretation, portfolio decisions,
+independent criticism, extraordinary claims and final synthesis. Follow explicit
+user choices and runtime availability; a model label is not evidence of validity.
 
-The highest available capability and reasoning effort MUST be used for:
-
-- research direction and novel hypothesis generation;
-- causal diagnosis, correction after drift or repeated failure, and search
-  reset;
-- experiment design or interpretation with material ambiguity;
-- portfolio decisions, adjudication, and final synthesis;
-- independent reproduction design, validation criticism, hostile review, and
-  extraordinary-claim assessment.
-
-A faster, cheaper lightweight model MAY be used only for a sealed task with
-explicit inputs, bounded output, no policy or interpretive discretion, and a
-deterministic or independently checkable verifier. Typical eligible work is
-unchanged-state monitoring, fact-box extraction, predeclared statistics, and
-simple isolated coding with objective tests.
-
-A lightweight worker MUST stop and escalate on ambiguity, conflicting
-evidence, surprising results, boundary failure, repeated failure, missing
-verification, a new hypothesis, material interpretation, or any authority or
-safety question. Its output MUST NOT directly promote a claim or trigger a
-material decision without high-capability review.
-
-Every lease records model class, reasoning effort, routing reason, verifier,
-and escalation conditions. See [docs/model-routing.md](docs/model-routing.md).
+Lightweight models are for sealed tasks with explicit inputs, bounded outputs,
+no material interpretive discretion and an objective verifier. They escalate
+ambiguity, conflicts, new hypotheses, repeated failures or authority questions.
+Record the routing reason and verifier in the existing lease; do not let an
+unchecked lightweight result promote a material claim.
+See [model routing](docs/model-routing.md).
 
 ## 6. Context authority
 
-Every campaign separates five context layers:
+Keep a stable campaign anchor (C0), task lease (C1), evidence/decisions (C2),
+replaceable checkpoint (C3) and transient conversation (C4). C4 is working context,
+not a substitute for the first four. Record material findings and decisions
+before dependent action. One compact role snapshot indexes current scope, event
+cursor, findings, dependencies and next action; it is not a transcript.
+Read only context needed for the next decision. See [context](docs/context.md).
 
-```text
-C0 frozen campaign anchor
- > C1 task scope lease
- > C2 append-only evidence and decisions
- > C3 replaceable current checkpoint
- > C4 transient conversation and reasoning
-```
+## 7. Launch
 
-C4 is a working cache. It MUST NOT change the objective, lease, evidence
-classification, or decision merely because it is newer or longer. A material
-idea, disagreement, result, or decision that exists only in conversation MUST
-be compacted into C2 and reflected in C3 before portfolio action.
+Before research compute, define the outcome, hard constraints, acceptance and
+claim boundaries, causal questions, resources, mutable-state owners and relevant
+review/retry rules. Give each role its lease, current checkpoint and necessary
+references. Resolve details inside delegated authority by testing or judgment.
 
-Each durable role owns a compact memory snapshot containing identity, lease,
-event cursor, material findings, dependencies, contacts, commitments, and next
-action. It is a recovery index, not a transcript or evidence replacement.
-
-See [docs/context.md](docs/context.md).
-
-## 7. Launch gate
-
-Before creating research lanes, the supervisor MUST freeze:
-
-- one measurable objective and completion boundary;
-- hard constraints, non-goals, and authority boundaries;
-- metric, guardrail, evidence-tier, and acceptance definitions;
-- a causal map from each research question to a downstream decision;
-- resource and mutable-state ownership;
-- maximum active lanes and local subagent concurrency;
-- exploration breadth, retry/pivot, and search-reset policies;
-- role-separation and extraordinary-claim review rules;
-- model-routing, verifier, and automatic-escalation rules;
-- context, reporting, escalation, and completion policies;
-- participant roster, direct-routing, dependency/completion notification, role
-  memory, and watchdog wake policies.
-
-Candidate directions are hypotheses, not commands. Missing details that remain
-inside delegated authority SHOULD be tested rather than escalated.
-
-See [docs/launch.md](docs/launch.md).
+Use existing records and [launch guidance](docs/launch.md); template fields may
+be nonapplicable. Do not create a service, dashboard or approval chain to launch
+an ordinary task. Hierarchy and recurrence are optional mechanisms.
 
 ## 8. Research cycle
 
-Each experiment MUST bind:
+Bind the falsifiable mechanism, baseline/intervention, sample unit, metrics and
+guardrails, relevant input/code/config/evaluator identities, budget, outcome and
+next decision in one experiment card. Run the smallest complete outcome-bearing
+experiment once ready. Infrastructure is justified only when it enables valid
+work. Tests and review support the experiment; they do not replace its outcome.
 
-- campaign, lane, hypothesis, attempt, and evaluation identities;
-- falsifiable mechanism and decisive falsifier;
-- baseline, intervention, sample unit, and independence assumptions;
-- primary metric, guardrails, and allowed claim tier;
-- data, code, configuration, and evaluator identities;
-- resource budget, exact executable action, and expected evidence condition;
-- outcome class, evidence refs, and next decision.
-
-The smallest real experiment SHOULD run as early as safety and validity permit.
-Infrastructure work is allowed only when it is the smallest repair required to
-obtain valid evidence.
-
-An invalid run records physical cost but MUST NOT become scientific evidence.
-A negative valid result MUST NOT be relabeled as an infrastructure failure.
+Invalid runs retain their cost but cannot support scientific claims. Negative
+valid results MUST NOT be relabeled as infrastructure failures. Diagnose the
+first failed boundary and repair the smallest cause.
 
 ## 9. Exploration and failure continuity
 
-Before convergence, the portfolio SHOULD cover:
+Cover the leading, mechanistically orthogonal and falsification/boundary routes
+before convergence, or record a scope/resource/evidence reason and reopening
+condition for a narrower portfolio. Group ideas by mechanism, not wording.
 
-- the strongest current route;
-- a mechanistically orthogonal route;
-- a falsification, null, or boundary route.
+Classify attempts as hypothesis refuted, mechanism not activated, method invalid,
+implementation fault, insufficient information, resource blocked, scope mismatch
+or positive pending review. Noninitial attempts identify their predecessor and
+material novelty: repaired invalidity, new mechanism, registered replication,
+justified boundary or new evidence. More compute and renamed tasks alone do not
+justify repeating a failed route.
 
-A narrower portfolio requires a recorded evidence, urgency, exact-method, or
-resource reason plus a reopening condition. Ideas are clustered by causal
-mechanism; cosmetic parameter changes are not distinct routes.
+When retry authority is exhausted, pivot using negative evidence and alternatives.
+If the objective/budget remain active but no route remains, reset the search from
+the objective and unresolved causal gaps. One failed implementation or inability
+to imagine another route does not prove the objective impossible.
 
-Every attempt has one primary class:
+## 10. Collaboration and delivery
 
-```text
-hypothesis_refuted
-mechanism_not_activated
-method_invalid
-implementation_fault
-insufficient_information
-resource_blocked
-scope_mismatch
-positive_pending_review
-```
+Commission one concrete action/dependency with its artifact/revision, scope,
+deliverable, decision owner and return path. Omit history, broadcasts and repeated
+constraints. Freeze independent first passes before peer advocacy, then exchange
+evidence and resolve material disagreements with the cheapest discriminating test.
 
-Every noninitial attempt MUST reference its predecessor and state a material
-novelty delta: repaired invalidity, new mechanism, registered replication, new
-justified boundary, or new evidence. Renaming a task, changing prose, adding an
-unregistered seed, or spending more compute without a new information boundary
-does not create novelty.
+Executors own implementation, checks, observation, recovery and authorized
+delivery. When independent review is required, the executor freezes the artifact
+and requests the authorized reviewer directly. They resolve findings and complete
+delivery, then notify management once. Deployment consumes accepted delivery under
+its own authority. Peers cannot retask one another or expand leases.
 
-When same-mechanism retry authority is exhausted, the manager MUST freeze that
-route and conduct a pivot review over the idea bank, negative evidence, direct
-control points, and remaining orthogonal routes. If no route remains while the
-objective and exploration budget remain active, the manager MUST conduct a
-fresh search reset from the objective, constraints, negative evidence, and
-unresolved causal gaps without replaying the failed route's advocacy.
-
-Failure to imagine another route is not evidence that the objective is
-impossible. Retirement claims MUST be limited to the scope actually tested.
-
-## 10. Collaboration and discussion
-
-Every collaboration begins with a packet containing:
-
-- functional contribution role, professional lens, one owned question, and
-  bounded decision scope;
-- bounded deliverable and output contract;
-- input refs and deliberately withheld context;
-- independence group and context-exposure rule;
-- allowed files/resources and forbidden actions;
-- deadline or stop condition;
-- discussion route, decision owner, dependencies, and completion subscribers.
-
-Collaboration follows this sequence:
-
-1. **Commission** bounded work.
-2. **Freeze** independent first-pass outputs before peer advocacy.
-3. **Exchange** claims, counterclaims, evidence refs, and discriminating tests.
-4. **Attack** the strongest surviving claim and evaluator.
-5. **Adjudicate** using the predeclared evidence rule.
-6. **Synthesize** accepted, negative, and unresolved evidence without changing
-   dispositions.
-
-Scoped peers MAY communicate directly for evidence, dependencies, review,
-discussion, handoff, and completion. Peer messages MUST NOT retask another lane,
-borrow a lease, or grant authority. G1 receives management deltas, not every
-routine message.
-Material disagreement MUST remain durable. If discussion produces opinion but
-not evidence, the decision owner SHOULD commission the smallest discriminating
-test or close the issue as unresolved.
-
-See [docs/collaboration.md](docs/collaboration.md).
+A management handoff is complete when receipt, deliverable and return path are
+clear. The manager MUST end that turn. Receipt confirms delivery, not execution.
+Resume on final delivery, a blocker requiring a management decision, or an explicit
+user status/intervention request. Do not watch task status or output artifacts,
+wait on execution, or create substitute monitors after handoff. Explicitly
+requested monitoring stays with its assigned executor and cadence.
+See [communication and liveness](docs/communication-liveness.md).
 
 ## 11. Independent review and extraordinary claims
 
-A material claim MUST NOT use one context as its sole proposer, sole validator,
-and final adjudicator.
+One context MUST NOT be the sole proposer, validator and final adjudicator of a
+material claim. Review is proportionate to the affected decision and uses frozen
+artifacts. Further rounds need new material evidence and a decision they can change.
 
-A result is `positive_pending_review` with extraordinary risk when it is
-unusually strong, clean, exact, broad, surprising, contrary to robust prior
-evidence, or would support a broad novelty or acceptance statement.
+Unusually strong, broad, clean or surprising claims remain positive pending review.
+Before dependent acceptance or scale-up, freeze the claim and evidence, obtain
+independent reproduction and hostile criticism, run cheap decisive controls, and
+preserve dissent in the claim-tier decision. Extraordinary means high unverified
+risk, not automatically true or false. See [collaboration](docs/collaboration.md).
 
-Before dependent scale-up, promotion, acceptance, or broad generalization:
+## 12. Decisions and human control
 
-1. freeze the original claim, identities, raw evidence refs, and analysis path;
-2. reproduce it independently without unnecessary proposer advocacy;
-3. commission a hostile referee to attack provenance, evaluator, leakage,
-   selection, boundaries, and alternative explanations;
-4. run the cheapest decisive negative controls or sensitivity tests;
-5. preserve dissent and issue a claim-tier decision through the named owner.
+A material decision cites supporting evidence, alternatives, relevant review,
+unresolved dissent, owner and next action. Match the record to the decision;
+ordinary reversible choices do not need a new decision dossier.
 
-Extraordinary means unverified high risk, not automatically true and not
-automatically false.
-
-## 12. Decisions, challenges, and user authority
-
-Every manager decision MUST cite:
-
-- evidence and attempt lineage;
-- alternatives considered and their dispositions;
-- independent review refs;
-- unresolved dissent;
-- claim risk and decision owner;
-- next action and review condition.
-
-Any role MAY challenge a factual premise or authority conflict with concrete
-evidence. The challenge MUST state the disputed scope, contrary evidence, risk,
-safe work continuing, requested resolution, and response condition. The issuer
-MUST answer with evidence or explicit control authority, not rank.
-
-User messages are decomposed into:
-
-- authoritative outcome, constraint, stop, or authority change;
-- exact-method scope choice;
-- factual premise;
-- cause hypothesis;
-- proposed method or remedy.
-
-The first two categories control action. The remaining categories enter the
-evidence queue. Creativity MUST stay inside authorized scope and MUST NOT relax
-constraints or create external authority.
+Apply explicit human outcomes, constraints, stops and exact-method choices.
+Test factual premises, causal explanations and suggested remedies as hypotheses.
+Explain errors and uncertainty plainly without delaying authorized work. A
+challenge names contrary evidence and its affected scope; rank is not an answer.
 
 ## 13. Event-driven operation
 
-Runtime coordination is event-driven, not polling-driven.
+Send one useful material delta to declared recipients through an authorized
+route. Verify the destination and reconcile ambiguous creation/delivery before
+retrying. Do not duplicate built-in result delivery or acknowledge duplicates.
 
-A role sends launch, material result, dependency, invalidation, review,
-challenge, handoff, completion, or decision events directly to declared
-recipients and subscribers. Messages carry current roster identity, changed
-fields, and evidence refs. Recipients verify destination and drop duplicates.
-
-Unchanged monitoring is silent. Long work exposes a durable expected-evidence
-condition and proportional heartbeat. A periodic G0 watchdog is a bounded
-fallback auditor, not a second manager. It repairs unobserved completion and
-all-idle faults by waking the minimum authorized G2, G1, or G0 target set.
-
-For task creation, ambiguous delivery, validation epochs, progress accounting,
-conversation lifecycle, and finalization controls, load
-[docs/operational-controls.md](docs/operational-controls.md) only at the
-corresponding event. Identity, direct communication, completion, role memory,
-and watchdog rules are in
-[docs/communication-liveness.md](docs/communication-liveness.md).
+Unchanged monitoring is silent. An optional authorized watchdog repairs missing
+ownership or delivery; it is not a second manager or observer of healthy work.
+The recurring prompt contains a stable task-record pointer, action/trigger,
+authority and terminal condition. Current progress belongs in that record.
+See [operational controls](docs/operational-controls.md) only when needed.
 
 ## 14. Recovery
 
-After compaction, restart, or handoff, a task reads only:
-
-1. current roster self-binding/contact slice and role memory;
-2. C0 campaign anchor and its C1 lease;
-3. latest C3 checkpoint;
-4. relevant post-cursor C2/events;
-5. artifacts required for the next action.
-
-It then verifies objective, scope, attempt lineage, retry state, alternatives,
-open dissent, pending reviews, resource ownership, and next action before
-writing a recovery checkpoint. It MUST NOT reconstruct intent from the most
-recent conversation fragment or replay full history by default.
+Read current instructions, own binding/lease, compact checkpoint, relevant
+post-cursor events and next-action artifacts. Do not replay full history or infer
+intent from the last fragment. Reconcile a real conflict at its owning source.
+Preserve valid stages and compatible partial work; native continuation is preferred
+to starting over. Verify consumption and new progress at the relevant boundary.
 
 ## 15. Isolation and safety
 
-Parallel work requires separate mutable-state ownership and compatible resource
-leases. Shared ordered state MUST use serialized ownership. Agents MUST preserve
-foreign changes, healthy external work, raw inputs, and durable evidence.
-
-Destructive actions, objective changes, new external scope, publication, and
-other high-impact transitions require the authority declared by the campaign.
-A stop instruction is applied immediately to its named scope; its rationale may
-be challenged after the scope is safe.
+Concurrent writers need separate mutable-state ownership; shared ordered state
+needs serialized ownership. Preserve foreign work and accepted evidence. Existing
+authority governs publication, destructive actions and process control separately.
+Apply a stop immediately to its named scope. Stopping a monitor does not stop
+computation unless that action was also authorized.
 
 ## 16. Completion
 
-Completion requires a requirement-to-evidence map, not a persuasive summary.
-The manager proposes completion; the supervisor checks every frozen requirement
-against reachable evidence and independent review.
+Match the requested outcome to sufficient reachable evidence and required review.
+Separate accepted implementation, delivered revision, deployment, actual runtime
+adoption, recovery/progress, performance and domain outcome. One stage, passing
+tests or a successful exit is not evidence for every later boundary.
 
-Before closure:
-
-- compact evidence is reachable;
-- material negative and invalid results remain represented;
-- claims match their allowed tiers;
-- code or other products have an explicit merge/archive disposition;
-- disposable output has an exact cleanup owner;
-- active resources, recurring tasks, and open decisions have terminal states.
-
-Tests, task count, code volume, one good result, and unanimous agents are never
-completion by themselves.
+State supported claims, limitations, remaining work and next owner. Give products,
+resources and recurring tasks their authorized disposition; cleanup is not an
+automatic consequence of completion. Do not rerun accepted work for a new SHA or
+to improve a report when behavior and its evidence remain valid.
 
 ## 17. Minimum implementation
 
-The minimum viable control plane is:
-
-- one campaign file;
-- one versioned participant roster and dependency/subscription map;
-- one task map;
-- one current checkpoint per active lane;
-- one role-memory snapshot per durable participant;
-- one append-only evidence/decision stream;
-- referenced experiment artifacts.
-
-These MAY be ordinary files. Do not build a service, database, dashboard, or
-prompt generator until an observed control failure justifies it. Runtime roles
-MUST receive role-scoped packets rather than this full specification.
+An existing task record can hold campaign scope, participant bindings, leases,
+checkpoint, evidence/decisions and artifact references. Separate files only when
+ownership or recovery needs them. Templates are aids, not required bureaucracy.
+Runtime prompts point to canonical rules rather than copying the whole manual.
 
 ## 18. Governance learning
 
-An observed management defect MAY improve the framework. The owner records the
-defect, separates project-specific mechanics from reusable control, patches the
-smallest triggered module, tests the failure and autonomy boundaries, and
-versions the change prospectively.
-
-A material authority, evidence, safety, lifecycle, or model-routing change MUST
-receive independent high-capability review. It MUST NOT silently rewrite an
-active objective, lease, evaluation contract, authority boundary, retry count,
-or prior evidence classification.
-
-Self-improvement is bounded work, not a standing meta-project. Compatible
-research continues. A change without its declared benefit is narrowed or
-reverted. External publication or installation still requires existing
-authority. See [docs/evolution.md](docs/evolution.md).
+Improve the smallest canonical rule for a current requirement, observed defect
+or concrete simplification. Generalize the mechanism before publishing it: remove
+project identities, runtime facts and accidental thresholds. Material authority,
+evidence, safety, lifecycle or model-routing changes receive independent review;
+editorial equivalents use mechanical checks. Apply changes prospectively without
+silently rewriting active contracts or historical evidence. Compatible work
+continues. Close or narrow a repair that does not provide its expected benefit.
+See [governance evolution](docs/evolution.md).

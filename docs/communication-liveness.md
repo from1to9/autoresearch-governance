@@ -1,262 +1,132 @@
 # Communication and Liveness
 
-Load this guide only when creating or rotating a participant, sending across
-tasks, completing bounded work, recovering context, or auditing campaign
-liveness. It prevents stale task IDs, wrong-destination instructions, silent
-completion, manager relay bottlenecks, and all-idle deadlock.
+Use this guide for authorized creation, delivery, handoff or a concrete liveness
+fault. Runtime tool requirements and current human authority control each action.
+Reading a task does not authorize messaging it; a peer request is not a new grant.
 
-## 1. Minimal state
+## 1. Existing state and verified identity
 
-Keep four small durable objects in existing campaign state:
+Keep participant bindings, dependencies, material deliveries and compact role
+checkpoints in the existing campaign record. Separate files only when useful.
+The [roster](../templates/participant-roster.yaml) and
+[event template](../templates/event.yaml) are aids, not a new transport protocol.
 
-- a G1-owned versioned participant roster;
-- a dependency and event-subscription map;
-- an append-only event/delivery stream;
-- one role-owned memory snapshot per durable participant.
+Logical participants map to verified current task/conversation identities, roles,
+scope and status. G1 owns normal roster changes; an authorized supervisor may
+repair an unavailable manager's binding. Preserve superseded bindings where
+needed for recovery. Titles and remembered IDs are discovery hints, not proof.
+Give roles only their own binding and needed contacts.
 
-Ordinary files are sufficient. Do not build a broker, presence service,
-database, or scheduler merely to implement these records.
+For an authorized new task, one owner reserves a stable creation key, checks for
+a suitable existing task, creates once if needed, and binds the returned ready
+identity. A pending/client ID or timeout does not establish failure. Reconcile
+through native task state before retry; prevent duplicate leases. A finished turn
+or missing acknowledgement does not authorize a replacement task.
 
-## 2. Participant roster
+## 2. One useful message
 
-A stable logical `participant_id` is identity. A task or conversation ID is a
-verified transport binding, never an identity remembered from prose. The
-human-facing G0 supervisor initializes its own and the verified G1 binding; G1
-is the normal writer thereafter. The G0 supervisor may append one superseding
-repair version if G1 is unreachable or misbound.
+Consolidate the decision, then send one concrete action or dependency: trigger,
+essential artifact/revision, requested deliverable and return/close condition.
+Omit history, broadcasts, repeated constraints and routine progress requests.
+Keep detailed state at its canonical pointer. Send a short superseding delta only
+when execution must change.
 
-Use [the roster template](../templates/participant-roster.yaml). Each entry
-records:
+Resolve the intended recipient, role and scope from the current binding before
+sending. The recipient rejects a misrouted executable instruction; it does not
+reinterpret or forward it. Report a routing fault only through an authorized
+route, without copying private payloads to unrelated recipients.
 
-- governance level and function;
-- functional contribution role, professional lens, and bounded decision scope;
-- current task/conversation IDs and binding/scope epochs;
-- owned scope, status, capabilities, and contact topics;
-- checkpoint, role-memory, inbox-cursor, and binding-readback refs.
+Use a stable event ID or immutable artifact reference for material deliveries.
+An uncertain send remains ambiguous. Inspect the destination before retrying;
+reuse the same event identity for a necessary retry. Native tool contracts own
+read-back and retry behavior. Do not build a polling/retry layer around them.
+One dispatch owner prevents mirrored corrections; duplicates need no extra reply.
 
-Rules:
+## 3. Direct execution and review
 
-1. After creating or reusing a task, read product/task state back and verify the
-   creation key, logical role, scope epoch, and transport IDs before binding it.
-2. Append a new roster version for creation, rotation, replacement, retirement,
-   or correction. Do not rewrite an old binding.
-3. Revoke or supersede a stale binding before sending new executable work.
-4. Persist the roster outside G1 conversation context.
-5. Give G0 and G2 only their own binding plus contacts required by current
-   dependencies, review, or discussion. G1 retains the full roster.
-6. A participant that observes a mismatch reports it and rejects affected work;
-   it does not guess the intended identity.
+Management owns acceptance, dependencies and decisions. Executors own
+implementation, checks, runtime observation, recovery and authorized delivery.
+Keep optimization/training, implementation, independent validation and deployment
+responsibilities coherent; separate contexts where independence requires them.
 
-## 3. Resolve before send; verify before act
+When review is required, the executor freezes the artifact and contacts the
+authorized reviewer directly. They resolve concrete findings, complete accepted
+delivery and notify management once with scope, revision, result, limitations and
+next owner. A deployment owner consumes accepted delivery under its own authority.
+Do not make management a relay for routine executor/reviewer exchanges.
 
-Every cross-task message uses [the event template](../templates/event.yaml) and
-binds:
+Scoped peers may exchange evidence, interface dependencies, review findings and
+completion events. They cannot retask peers, borrow resources, change priorities
+or claim tiers, or grant external authority. Freeze independent review before
+proposer advocacy. Route only the disputed decision to its owner.
 
-- stable message/event ID, campaign, sender, and logical recipients;
-- destination transport IDs resolved from one roster version;
-- scope epoch, event kind, content hash, and evidence refs;
-- action or decision needed, response owner, subscribers, and close condition;
-- whether a reply is required, its due condition, and the declared inquiry
-  owner/route if that reply is not observed;
-- delivery state.
+## 4. Handoff completion and the management stopping rule
 
-Resolve recipients from the latest roster immediately before sending. Do not
-copy an ID from an old transcript, checkpoint narrative, or peer message.
+A management handoff is complete when the recipient has received the task and
+the deliverable and return path are clear. End the management turn then. Receipt
+proves delivery only, not execution, source adoption or outcome acceptance.
 
-The receiver compares the logical recipient, destination ID, campaign, and scope
-with its durable self-binding. On mismatch it MUST NOT execute, reinterpret, or
-forward the payload. It records `rejected_wrong_destination` and sends one
-routing-error event to the sender and roster owner without the sensitive
-payload.
+Resume management for a final delivery, a blocker requiring its decision, or an
+explicit user request to intervene or query status. Pending delegated work alone
+is not a trigger. Do not read/wait on execution status, watch output artifacts or
+schedule substitute checks after handoff. An explicitly requested monitor belongs
+to its executor and retains its cadence/scope; another chat must not shadow it.
 
-An ambiguous send requires destination read-back for the identical ID, scope,
-and hash. A policy-permitted retry reuses the same tuple only after absence is
-shown. Never send a blind third copy. An event seen at the wrong destination is
-not absence.
+The executor persists the result and sends one terminal event to its declared
+decision owner and affected subscribers through authorized routes. Built-in
+subagent delivery can satisfy this requirement; do not add a second announcement.
+A missing authorized delivery remains an explicit gap without blocking unrelated
+work. An unauthorized route is reported locally, not bypassed.
 
-## 4. Direct role communication
+## 5. Liveness and required responses
 
-G1 owns goal control, directory state, portfolio, and leases; it is not the
-mandatory transport for every message. Participants MAY communicate directly
-when the subject is already inside both scopes:
+Nonterminal work retains an owner/action, future wake, pending decision, queued
+reopening condition or bounded delivery repair. Transport idle is healthy when
+such a path exists; it does not mean failure or lost resource ownership.
 
-- evidence or artifact availability;
-- dependency readiness, invalidation, or blocker state;
-- reproduction, critique, challenge, or bounded discussion;
-- an implementation or experiment interface;
-- handoff, resource release, or terminal contribution result;
-- a routing or identity fault.
+A request that needs a response names its owner, response/due condition and quiet
+window. Long experiments need not send routine progress before the declared event.
+Delivery acknowledgement is distinct from a substantive result. There is no
+universal timeout, and receipt is not permission for continuing observation.
 
-Direct communication cannot retask a peer, change its priority or lease, borrow
-resources, alter model assignment or claim tier, or grant decision authority.
-Send those effects to the declared decision owner. Copy G1 only when portfolio,
-lease, resource, roster, validation, route, arbitration, or completion state
-changes.
+For an actual overdue required reply or missing owner, the authorized inquiry
+owner checks only the relevant compact state and asks once. If unresolved, route
+the smallest affected dependency to management. Escalate to the supervisor only
+when the manager itself needs repair or authority is missing. Do not broadcast,
+repeatedly resend, or pause independent work.
 
-Use subscriptions instead of all-to-all broadcast. Independence still applies:
-a blind reviewer does not receive proposer advocacy before its first-pass freeze.
+## 6. Authorized watchdogs and short prompts
 
-## 5. Dependencies and terminal notification
+An optional watchdog is a bounded fallback for missing ownership, overdue required
+delivery or another declared trigger. It is not a second manager or a substitute
+observer of healthy executors. It reads its cursor, compact checkpoint and new
+material events; open specific evidence only for a finding.
 
-Every lease or commission declares:
+Wake the minimum authorized owner: an executor for a ready action under its lease,
+the inquiry owner for an overdue reply, management for an ownership/dependency
+choice, or the supervisor for manager repair or external authority. A wake grants
+no new scope. Healthy work, normal waiting and unchanged evidence remain quiet.
 
-```yaml
-dependencies:
-  requires_event_ids: ["<event-id>"]
-  produces_event_kinds: ["<kind>"]
-subscribers:
-  - participant_id: "<logical-id>"
-    notify_on: "<completed | invalid | blocked | artifact_ready | resource_released>"
-    reason: "<decision or dependency>"
-completion_owner: "<participant-id>"
-```
+Use [the short prompt](../prompts/watchdog.md): record pointer, one action,
+cadence/trigger, authority, notification and terminal condition. Current state,
+accepted deliveries, incident history and recovery details live at the pointer.
+Do not append them to each recurrence or copy a whole manual into the prompt.
 
-Before bounded work becomes idle, its owner MUST:
+When editing only the prompt, preserve schedule, enabled state, target, model and
+notification settings. Keep stopped/deleted monitors stopped/deleted. Stop-monitor
+means stop monitoring; it does not stop compute unless separately authorized.
+Follow the saved terminal disposition. No recurrence is required when events are
+sufficient, and a missed wake does not invalidate healthy work.
 
-1. persist the result or bounded artifact;
-2. classify outcome and resource state;
-3. refresh role memory or the terminal output record;
-4. send one terminal event to the commissioner, decision owner, and every
-   subscriber whose condition fired;
-5. include evidence refs, next owner/action, and wake condition;
-6. record required deliveries as observed or explicitly ambiguous.
+## 7. Context recovery
 
-The event may go directly to dependent peers. It does not wait for G1 relay.
-Receipt-only chatter is unnecessary for informational events. An event that
-declares `response_required: true` follows the bounded response protocol below;
-delivery read-back alone is not a substantive reply.
+Each durable role keeps one compact snapshot of current scope, applicable
+decisions, event cursor, findings, dependencies, artifact pointers and next action.
+Use [role memory](../templates/role-memory.yaml) as a guide. Refresh it at material
+changes or handoff, not as a duplicate transcript. Do not retain private reasoning
+or raw logs in it.
 
-Work is computation-terminal but communication-incomplete while a required
-terminal event is neither observed nor reconciled. This does not block unrelated
-work, but the watchdog can repair it.
-
-## 6. Liveness invariant
-
-Every nonterminal campaign MUST retain at least one durable liveness edge:
-
-- an active participant owns an authorized next action;
-- an external or compute condition has a due/wake condition and target;
-- a decision has one owner and close condition;
-- a queued lane has a precise reopening event and subscriber;
-- a required delivery is in bounded reconciliation.
-
-Transport `idle` is healthy when such an edge exists. It is a fault when all
-relevant tasks are idle and durable state has no executable owner, future wake,
-pending condition, or terminal completion. It is also a fault when upstream work
-completed but declared subscribers were not informed, or when a blocking
-response obligation is overdue without an acknowledgement, progress, blocker,
-or terminal event.
-
-G2 checks its lane before ending a turn. G1 checks the campaign after each event
-batch. A periodic G0 watchdog is an independent fallback, not a second manager.
-
-## 7. Required replies and silence recovery
-
-Questions, decisions, handoffs, and executable requests that cannot safely be
-left unanswered set `response_required: true`. The sender also declares:
-
-- an acknowledgement or first-response due condition proportional to the work;
-- the next evidence/wake condition for intentionally quiet long work;
-- one `inquiry_owner`, normally the commissioner, coordination group, or
-  relevant functional/professional group owner;
-- a compact escalation route drawn from the current roster.
-
-A valid active response is an acknowledgement with current state and next
-evidence condition, a progress/result event, a blocker or bounded decline, or a
-routing rejection. Transport delivery, an idle status, or an old heartbeat is
-not a response. There is no universal timeout: do not interrupt healthy work
-inside its declared evidence window.
-
-When a required response becomes overdue, the watchdog MUST NOT blindly resend
-the original instruction or halt the campaign. It:
-
-1. verifies the recipient binding, event cursor, declared quiet window, and any
-   observable active work;
-2. wakes the declared inquiry owner to ask the silent participant directly with
-   one idempotent `inquiry_request` and a close condition;
-3. wakes G1 if the inquiry owner is absent/unreachable, the response blocks
-   several lanes, or one bounded inquiry also goes unanswered, so G1 can assign
-   another coordinator, reroute, rotate, or replan the smallest affected edge;
-4. wakes G0 only when G1 itself does not respond or requires repair/replacement.
-
-The inquiry owner may be a manager, coordination group, or the corresponding
-product, engineering, algorithm, data, mathematics, review, or other functional
-group named in the roster. Only the dependent edge waits; unrelated authorized
-work continues. Inquiry and escalation events contain no new task authority.
-
-## 8. Watchdog wake routing
-
-Each recurrence reads only its cursor, current roster identity/hash, compact G1
-checkpoint, due/wake and required-response indexes, unobserved required
-completions, and checkpoints for participants implicated by a trigger. It does
-not poll full transcripts.
-
-Choose the minimum sufficient target:
-
-- wake **G2** when a registered dependency or due condition is satisfied and its
-  existing lease already authorizes the next action;
-- wake the declared **inquiry owner** when a required reply is overdue, so that
-  the commissioner, coordination group, or functional owner actively asks the
-  silent participant;
-- wake **G1** for missing ownership, roster/routing repair, portfolio choice,
-  resource reallocation, retry/pivot, repeated silence, missing inquiry owner,
-  or completion-event reconciliation;
-- wake **G0** for unreachable or repeatedly misbound G1, charter/authority
-  change, manager repair or replacement, completion, or a true human decision;
-- wake several participants only for independent already-owned actions or the
-  declared subscribers of one event.
-
-Do not wake anyone for healthy long work, correctly queued state, unchanged
-evidence, or reassurance. A wake binds current roster identity, a stable wake ID
-and hash, exact trigger, smallest action, evidence refs, and close condition. It
-grants no new authority.
-
-Cadence follows the tolerable silent gap, expected evidence windows, and cost of
-stranded resources. A scheduler may run more often than work is due; unchanged
-runs remain silent. Missing one recurrence does not invalidate healthy work.
-
-Use [the watchdog prompt](../prompts/watchdog.md). If recurrence is unavailable,
-run the same audit manually or on material events.
-
-## 9. Role-owned memory and compaction
-
-Every durable G0, G1, G2, reviewer, or long-lived contributor maintains
-[one compact memory snapshot](../templates/role-memory.yaml). The role writes its
-own snapshot; G1 does not reconstruct every role from transcripts.
-
-Store identities and hashes, event cursor, applicable decisions, durable
-findings and negative results, open questions, dependencies, contact slice,
-commitments, artifact refs, next action, wake condition, and context-health
-flags. Do not store private chain-of-thought, raw logs, or a transcript copy.
-
-Role emphasis:
-
-- G0: charter/authority versions, G1 audit and completion gaps;
-- G1: roster, dependency map, portfolio decisions, and resources;
-- G2: hypothesis/attempt map, evidence, experiment state, and dependencies;
-- reviewer: frozen packet, examined evidence, objections, and disposition;
-- bounded subagent: one returned artifact and terminal event, with no separate
-  durable memory unless promoted to a G2 conversation.
-
-Refresh at lease acceptance, around long external work, material results or
-decisions, direct dependency messages, nonterminal turn end, and before expected
-compaction or handoff. After restart, read only the self-binding/contact slice,
-role memory, campaign digest, lease, checkpoint, post-cursor deltas, and
-next-action artifacts. Full transcript replay requires one named conflict.
-
-## 10. Failure repair table
-
-| Failure | Minimum repair |
-| --- | --- |
-| wrong task/conversation ID in roster | quarantine binding, read product state, append corrected version, notify affected roles |
-| instruction sent to wrong task | reject without action; resolve logical recipient and verified binding before one correct send |
-| small task completes silently | persist result; send terminal event directly to commissioner, decision owner, and fired subscribers |
-| required reply is overdue | verify binding/quiet window; wake the declared manager, coordination group, or functional inquiry owner to ask directly; escalate only the affected edge if silence persists |
-| all tasks idle before terminal state | reconcile liveness edges; wake minimum authorized G2/G1/G0 set |
-| G1 becomes a relay bottleneck | restore scoped direct subscriptions; send G1 only management deltas |
-| peer message changes scope | reject scope change, route it to decision owner, retain valid evidence exchange |
-| long context loses state | recover from role memory, checkpoint, cursor, and refs |
-| roster is too large for runtime roles | keep full roster at G1; distribute versioned contact slices |
-
-Repairs preserve autonomy and direct cooperation. They do not add a standing
-approval layer.
+Recover from current instructions, own binding/lease, checkpoint, relevant new
+events and next-action evidence. Do not replay full history or read every peer.
+Resolve a specific conflict at its authoritative source. Management does not
+reconstruct each executor's state merely because the executor is still working.

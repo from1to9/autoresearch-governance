@@ -51,8 +51,11 @@ campaign/
         └── artifacts.json
 ```
 
-Several logical records may share one file. Do not create a database merely to
-match this diagram.
+Several logical records may share one file. This is an example layout, not a
+required file set. Reuse the existing task record and do not create a database
+merely to match this diagram. Current explicit human instructions govern within
+system/runtime requirements; update affected controls rather than treating an
+older anchor as a veto.
 
 ## What belongs in C2
 
@@ -98,8 +101,9 @@ Do not compress health into one score. Preserve which invariant failed.
 - Send only on material events.
 - Drop duplicate events without receipt-only replies.
 - Keep raw logs and large diffs in artifacts.
-- A manager reads a bounded evidence sample and management deltas, not every
-  child transcript or routine peer message.
+- Management reads evidence for a current decision. A received handoff ends its
+  turn; follow the [management stopping rule](communication-liveness.md#4-handoff-completion-and-the-management-stopping-rule),
+  without watching status or artifacts while executors work.
 - A reviewer receives a frozen review packet, not the researcher's advocacy.
 - A status request does not pause authorized work.
 - Evidence or safety may exceed a soft message budget once; the next message

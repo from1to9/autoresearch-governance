@@ -8,6 +8,11 @@ It is designed for research programs that need more than one line of attack,
 must survive context compaction, and cannot treat confidence, consensus, or
 activity as evidence.
 
+For ordinary bounded work, use an ordinary task. This protocol adds only the
+ownership, independence and continuity that the requested outcome needs. Prefer
+the simplest sound design, reuse sufficient evidence and stop checking once the
+result is established. Do not build a governance project around routine work.
+
 ## Core loop
 
 ```text
@@ -36,10 +41,11 @@ The protocol separates:
 2. If needed, let a high-capability agent map and install the smallest local
    adapter with [docs/harness-adaptation.md](docs/harness-adaptation.md).
 3. Choose a launch mode with [docs/launch.md](docs/launch.md).
-4. Fill [templates/campaign.yaml](templates/campaign.yaml).
-5. Start the supervisor with [prompts/supervisor.md](prompts/supervisor.md); it
-   initializes [the participant roster](templates/participant-roster.yaml) while
-   binding G1.
+4. Record the scope and evidence boundary, using
+   [templates/campaign.yaml](templates/campaign.yaml) where useful.
+5. Reuse authorized roles and bind required participants through
+   [the roster](templates/participant-roster.yaml). Use
+   [the supervisor prompt](prompts/supervisor.md) when that responsibility is needed.
 6. Give every runtime role only its prompt, self-binding/contact slice, role
    memory, lease, current checkpoint, and referenced evidence.
 
@@ -53,7 +59,7 @@ smallest packet that completely defines their action.
 | --- | --- | --- |
 | Sponsor or launcher | core spec, launch guide, campaign template | experiment logs |
 | G0 supervisor | own memory, frozen campaign, verified G1 binding, manager snapshot | child transcripts |
-| G0 watchdog | watchdog prompt, cursor, roster hash, due/completion index, triggered refs | full roster and transcripts |
+| G0 watchdog | short prompt, task-record pointer, cursor and new triggered events | full roster and transcripts |
 | G1 manager | own memory, campaign, roster/task/dependency maps, compact checkpoints | child reasoning and raw logs |
 | G2 role/task | own binding/contact slice and memory, task lease, checkpoint, one experiment card | unrelated roster and peer histories |
 | Reviewer or referee | reviewer prompt, frozen claim, evaluation contract, evidence refs | proposer advocacy and portfolio history |
@@ -83,6 +89,13 @@ smallest packet that completely defines their action.
   domain-neutral example.
 - [scripts/validate.py](scripts/validate.py) — dependency-free repository
   validation.
+
+## Scope of reusable guidance
+
+Keep project mechanics in their repository and current host/run state in local
+records. Promote a lesson here only when its mechanism transfers across domains,
+work units, storage systems and harnesses. Maintain one canonical rule with short
+pointers. Recurring prompts reference task state instead of accumulating history.
 
 ## Reference implementation status
 

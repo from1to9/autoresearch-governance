@@ -1,144 +1,60 @@
 # Governance Evolution
 
-The framework may learn from management defects encountered during real
-projects. Evolution is triggered repair, not continuous self-expansion.
+Improve governance for a current requirement, an observed failure or a concrete
+simplification. It is bounded work, not a standing project that competes with
+execution. Apply the core [proportionate-design rule](../GOVERNANCE.md#proportionate-design-and-sufficient-verification).
 
-## Trigger
+## Reusable lessons
 
-A change needs observed evidence that at least one of these occurred:
+Separate the cause from the incident. A rule belongs here when it still makes
+sense with a different domain, work unit, storage system and agent harness.
+Project contracts stay in their repository. Host/user configuration, runtime
+identities, paths, credentials, current results and accidental thresholds stay in
+local evidence with scope and date. Historical instructions grant no authority.
 
-- valid work was blocked by unnecessary approval or repeated review;
-- objective, lease, evidence, retry, or decision state drifted;
-- task creation, messaging, compute, or ownership duplicated;
-- evidence became invalid, unreachable, or misclassified;
-- a role repeatedly loaded irrelevant context or missed required context;
-- a stale participant binding misrouted work, a required completion event was
-  lost, or all roles became idle without a liveness edge;
-- a recurring failure has a smaller testable control;
-- a simplification can measurably reduce latency, context, or overhead while
-  preserving authority and evidence validity.
+Use one canonical rule and short pointers. Replace or consolidate an ineffective
+rule rather than appending incident-specific prohibitions. Keep entrypoints short
+and detailed procedures behind task-specific links. Do not turn private incident
+logs into a public specification or a recurring prompt.
 
-Preference, speculative completeness, or the ability to add an abstraction is
-not enough.
+## Bounded repair
 
-## Defect record
+In the existing task/change record, state the concrete problem or requirement,
+affected decision, minimal change, expected benefit, relevant check and owner.
+Add a compatibility or rollback note only when it affects the decision. A separate
+schema, proof ledger or tracking service is not required.
 
-Create one compact append-only record:
+Preserve valid work, identify the smallest cause, edit its canonical owner, and
+check the changed behavior. Material authority, evidence, safety, lifecycle or
+model-routing changes need independent review; the author cannot solely accept
+them. Editorial equivalents use mechanical checks. Executors and the authorized
+reviewer resolve findings directly and complete delivery before notifying
+management. Another review round needs new material evidence.
 
-```yaml
-defect_id: <stable-id>
-observed_symptom: <what-happened>
-affected_decision_or_evidence: <scope>
-evidence_refs:
-  - <reachable-ref>
-classification: project_specific | candidate_universal | uncertain
-root_cause_hypothesis: <falsifiable-cause>
-minimal_change: <smallest-rule-schema-prompt-or-adapter-change>
-affected_modules:
-  - <module>
-active_campaign_compatibility: compatible | migration_required | unsafe
-migration_plan: <prospective-version-or-explicit-rebind>
-rollback_condition: <observable-condition>
-expected_context_or_overhead_effect: <direction-and-measure>
-evaluator_and_tests:
-  - <check>
-change_owner: <role>
-independent_reviewer: <role-or-none-with-reason>
-decision_ref: <pending-or-ref>
-```
+Apply changes prospectively. Do not silently alter active objectives, leases,
+resource ownership, evaluation rules, retry history, evidence classes or external
+authority. Keep compatible work moving; block only an actual conflicting operation.
+Publishing or installing elsewhere requires existing authorization.
 
-Project mechanisms stay local. Only a generalized control may be promoted here,
-after removing domain assumptions, runtime identities, paths, credentials, and
-current results.
+Evaluate the declared benefit at ordinary task events. Retain, narrow or remove a
+change that adds cost without preventing its concrete failure. Finish when the
+requested behavior and sufficient checks are satisfied.
 
-## Learning loop
+## Relevant regression scenarios
 
-1. Preserve the failing event, valid work, and affected evidence.
-2. Separate a project defect from a reusable governance defect.
-3. State the smallest falsifiable root-cause hypothesis.
-4. Patch the smallest triggered module, prompt, template, or harness adapter.
-5. Reproduce the defect and test autonomy, evidence, privacy, context, and
-   active-lease boundaries.
-6. Obtain independent high-capability review for a material authority,
-   evidence, safety, lifecycle, or model-routing change.
-7. Version prospectively and migrate only explicitly affected active state.
-8. Monitor the declared benefit and rollback condition at ordinary events.
-9. Retain, narrow, or revert based on evidence; record the decision and limits.
-10. Upstream a generalized lesson only when external publication is authorized.
+Select only scenarios whose behavior changes; this is not a mandatory campaign.
 
-An author cannot solely approve a material governance change. Editorial fixes
-with objectively equivalent semantics may use mechanical review.
+| Changed boundary | Useful check |
+| --- | --- |
+| Authority and autonomy | Authorized reversible work continues; a missing external decision blocks only its dependent action. |
+| Delivery and ownership | Receipt ends the management turn; executors and reviewers finish delivery directly; no duplicate observer starts. |
+| Identity and recovery | Ambiguous creation/send is reconciled; persisted work survives compatible changes and is consumed on continuation. |
+| Validation | A new SHA or optional metadata does not rerun valid work; a real semantic change invalidates only affected evidence. |
+| Claim strength | Intermediate progress or a local speedup is not promoted to final outcome or whole-run acceptance. |
+| Evidence independence | First-pass review remains independent and extraordinary claims receive proportionate reproduction/criticism. |
+| Context and privacy | The next actor can act from a short pointer; portable rules contain no private run facts. |
+| Monitoring | Schedule and authority survive prompt shortening; unchanged state is quiet; stop-monitor does not stop compute. |
+| Simplicity | Unnecessary mechanisms are removed rather than wrapped in new exceptions or approval layers. |
 
-## Authority and continuity
-
-An agent may autonomously improve governance when repository writes are inside
-its declared scope and the repair is reversible, testable, and compatible with
-active leases. It must not silently change:
-
-- objectives, constraints, non-goals, or completion boundaries;
-- task scope, resource ownership, or external authority;
-- metrics, estimands, evidence tiers, or acceptance rules;
-- prior evidence classes, retry counts, or decision lineage;
-- publication, destructive-action, or human-gateway boundaries.
-
-A required safety or evidence-validity correction blocks only the minimum
-dependent scope. Compatible experiments, analysis, preservation, and other
-lanes continue. A migration binds old and new versions explicitly; it does not
-reinterpret history in place.
-
-Self-improvement grants no external authority. A framework may draft a reusable
-lesson, but publishing it, installing it elsewhere, or mutating another system
-requires existing authorization.
-
-## Evolution budget and evaluation
-
-Each evolution item has one owner, a time or work budget, a close condition,
-and an expected benefit. Track only relevant signals:
-
-- time to first valid evidence;
-- approval requests inside delegated leases;
-- blocked-scope breadth and unowned idle time;
-- duplicate creation, delivery, or compute incidents;
-- invalid or unreachable evidence;
-- context actually loaded by each role;
-- material review closure time;
-- valid evidence or decisions per unit of governance overhead.
-
-If a change does not improve its declared signal, creates more failures than it
-prevents, or delays first evidence, narrow or revert it. Do not build a
-self-modifying service, new database, or standing review board unless repeated
-measured failures justify that exact mechanism.
-
-## Regression scenarios
-
-Exercise scenarios affected by the change, including:
-
-1. reversible in-lease work proceeds without an approval request;
-2. one blocked lane does not stop unrelated work;
-3. independent first passes remain independent before discussion;
-4. extraordinary results receive reproduction and hostile review;
-5. ambiguous create or send does not duplicate work;
-6. recovery loads compact durable state rather than full history;
-7. lightweight work escalates judgment;
-8. active campaigns retain frozen semantics after a prospective update;
-9. project-specific experience stays local;
-10. a no-benefit change reaches rollback and closes.
-11. a wrong task/conversation binding is rejected and repaired before execution;
-12. a completed small task notifies its declared dependents without G1 relay;
-13. all-idle nonterminal state wakes the minimum authorized G2/G1/G0 set;
-14. each durable role recovers from its own memory and event cursor;
-15. functional roles and professional lenses produce distinct tests without
-    exceeding decision scope or becoming votes.
-16. an overdue required reply wakes its declared manager, coordination group,
-    or functional inquiry owner to ask directly, while unrelated work continues;
-17. one unanswered inquiry routes the smallest affected edge to G1, and G0 is
-    woken only if G1 itself is silent or needs repair.
-18. when material review is triggered, it closes and the smallest complete
-    outcome-bearing run starts before any review without new evidence;
-19. hash-only or reconstructible metadata debt warns or backfills without
-    blocking work whose canonical semantic identity and provenance are intact;
-20. defensive machinery without an observed active-path failure and affected
-    result is removed or deferred rather than expanding the mainline.
-
-Repository validation proves structural consistency, not operational benefit.
-Retaining a material change also requires evidence tied to its defect record.
+Repository validation checks structural consistency. It does not establish
+runtime adoption, scientific validity or operational benefit by itself.

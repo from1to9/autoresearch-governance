@@ -1,400 +1,189 @@
 # Operational Controls
 
-This guide preserves field lessons that matter during long campaigns without
-forcing every runtime role to read them. Load only the section triggered by the
-current event: identity, task creation, ambiguous delivery, launch readiness,
-validation, stalled progress, context rotation, resource conflict, or closure.
+Load only the section needed for the current event. Apply the core
+[proportionate-design rule](../GOVERNANCE.md#proportionate-design-and-sufficient-verification)
+directly; this guide is not an intake checklist or an extra approval gate.
 
 ## 1. State and evidence boundaries
 
-Keep three layers distinct:
+Keep portable rules, local task state and authoritative evidence distinct.
+Portable guidance contains transferable contracts and procedures. Host/user
+identities, resolved paths, credentials, resource assignments and current results
+stay local with their scope and date. An old run record grants no new authority.
 
-| Layer | Contains | Excludes |
-| --- | --- | --- |
-| Portable governance | rules, schemas, role prompts, adapters | live task IDs, credentials, machine paths, current results |
-| Campaign state | anchors, leases, checkpoints, cursors, task map | raw evidence presented as fact without refs |
-| Evidence | immutable inputs, manifests, outcomes, analyses, archives | unbound conclusions |
-
-Use an existing repository, artifact store, and task system before inventing a
-parallel database or scheduler. Logical records may share one file when their
-identities and append-only lineage remain clear.
-
-Every campaign-specific number names its source: statistical design, resource
-capacity, safety constraint, economic contract, or sponsor instruction. A
-convenient number from another campaign is not a default.
+Use existing task records and storage. One canonical owner holds each rule or
+state; other documents link to it. Template fields describe possible needs, not
+a requirement to create every record for every task. Campaign-specific numbers
+come from user control, statistical design, resource capacity or a real acceptance
+contract, not copied examples.
 
 ## 2. Goal, experiment, and diagnostic lineage
 
-The campaign anchor binds a versioned goal model:
+Bind each research question to the outcome and a decision it can change in the
+[campaign](../templates/campaign.yaml) and
+[experiment card](../templates/experiment.yaml). Record predecessor, material
+novelty and relevant evaluation identity. Diagnostics remain subordinate to the
+parent objective; a local metric or convenient component cannot replace it.
 
-```yaml
-goal_model:
-  version: <monotonic-version>
-  hash: <canonical-hash>
-  root_goal_id: <stable-id>
-  root_outcome: <measurable-outcome>
-  completion_edges:
-    - <requirement-to-evidence-edge>
-  semantic_anchors:
-    - <compact-term-or-relationship>
-  subgoals:
-    - subgoal_id: <stable-id>
-      parent_id: <id>
-      question: <falsifiable-question>
-      causal_edge_to_parent: <edge>
-      downstream_decision: <decision>
-      forbidden_substitutes:
-        - <nearby-non-answer>
-      diagnostic_budget: <envelope>
-```
+When diagnostics could displace outcome work, give their chain a budget and
+integration condition. Outcome-bearing negatives and underpowered results count;
+pre-outcome infrastructure/invalid-method failures neither count nor reset it.
+At the limit, integrate into an outcome comparison, retire the exact path, or
+obtain an authorized goal change. Renaming a task does not reset the limit.
 
-Each experiment card binds the exact goal-model hash, parent question, causal
-edge, downstream decision, forbidden substitutes, predecessor, and evaluation
-identity. If diagnostics can displace outcome work, also bind:
+Selected outputs are joint consequences of inputs, representation, search,
+resource budget and evaluation. Inspect independently sampled inputs before
+using selected failures to explain opportunity absence or a search defect. Trace
+what the implementation can represent and reach. Separate data/collection bias
+from design faults, then make one coordinated causal repair.
 
-```yaml
-diagnostic_chain_id: <stable-id-or-none>
-diagnostic_sequence: <monotonic-or-none>
-counts_toward_streak: <true-or-false>
-integration_due: <condition-or-none>
-```
+## 3. Creation and delivery
 
-A local metric, parameter, component, or failure remains a diagnostic; it does
-not become a new objective. Outcome-bearing diagnostics count toward the
-declared streak even when negative or underpowered. Pre-outcome infrastructure
-or invalid-method failures neither count nor reset it.
+[Communication and liveness](communication-liveness.md) owns participant binding,
+creation reconciliation, direct delivery and management handoff. Use its existing
+records instead of another message protocol. A queued ID or transport timeout is
+not proof of creation failure; inspect before retrying. Read access and incoming
+messages do not grant sending or task-creation authority.
 
-At the diagnostic limit, integrate findings into an outcome-bearing comparison,
-retire the exact path, or obtain an authorized goal-model change. Relabeling a
-nearby detail does not reset the limit. Schema changes are prospective and do
-not invalidate a healthy frozen campaign merely for documentation consistency.
+## 4. Readiness and complete experiments
 
-Semantic anchors are a low-cost compaction checksum. Their disappearance can
-trigger review, but keyword presence never proves alignment; the causal edge
-and downstream decision are authoritative.
+Review the implementation diff before costly validation. Consolidate checks that
+could invalidate the result: input, intervention activation, comparison, outcome
+writer, resources and relevant recovery behavior. Reuse passing evidence. Close
+concrete findings with focused checks; further review needs new evidence and a
+named decision. Routine repairs within the lease proceed autonomously.
 
-## 3. Single-writer task creation
+A complete experiment is the smallest valid path from authoritative inputs,
+through the intended intervention, to analyzable outcomes. Completeness refers
+to the causal path, not maximum statistical scale. Freeze a falsifiable hypothesis
+and one coordinated change; run, inspect activation, missingness, denominators,
+uncertainty, guardrails and cost; then keep, revert, repair, pivot or scale.
 
-Conversation or task creation is a small transaction:
+Wrong inputs/evaluator, leakage, corruption, unapplied intervention, unrecoverable
+outcomes or a concrete safety/resource failure may block their affected scope.
+Style, optional refactors, descriptive hashes and reconstructible metadata do not
+block by themselves. Required identity/security checks remain binding. Do not
+invent provenance or bypass a real cache miss to claim compatibility.
 
-```yaml
-creation_key: <campaign/lane/scope-epoch/role>
-creation_owner: <supervisor-or-manager>
-creation_state: reserved | pending | ambiguous | bound | contained
-creation_request_ref: <ref-or-none>
-logical_participant_id: <stable-id>
-authoritative_task_id: <id-or-none>
-authoritative_conversation_id: <id-or-none>
-binding_readback_ref: <ref-or-none>
-roster_version_bound: <version-or-none>
-duplicate_task_ids:
-  - <id>
-```
+Documentation changes use content, links, portability and applicable hygiene
+checks. A new revision or formatting change alone does not justify a campaign.
+After a narrow fix, rerun failing and directly affected checks. Preserve unrelated
+passing evidence and disclose unresolved failures.
 
-The owner:
+## 5. Recovery and semantic compatibility
 
-1. reserves one stable key;
-2. enumerates compatible existing tasks and reuses a match;
-3. otherwise issues exactly one create operation;
-4. treats a timeout, queued response, request ID, or transport error as
-   `pending` or `ambiguous`, not proof that creation failed;
-5. reconciles through destination or task-list read-back before any retry;
-6. verifies logical role, scope epoch, creation key, task ID, and conversation ID
-   by product/task read-back;
-7. appends the binding to the participant roster before sending executable work
-   or a lease;
-8. contains duplicates before any of them begin work.
+Distinguish calculation completion, durable commit, selection/transition and
+next-stage dispatch. Find the failed boundary before choosing recovery. A writer
+or transition failure with authoritative surviving outputs calls for a boundary
+repair; it does not automatically invalidate prior calculations.
 
-A completed turn, failed hypothesis, released resource, or missing
-acknowledgement is not permission to create a replacement. A new task needs a
-terminal prior transaction plus a new scope epoch or recorded rotation gate.
+Resume through the native contract and preserve completed stages and compatible
+partial output. Verify that the new execution consumes restored work and advances
+new work. Existing files, a loaded revision or a reset initialization counter
+alone proves neither reuse nor loss. Successful continuation before an affected
+boundary does not prove that the later boundary has passed.
 
-## 4. Idempotent delivery
+Reconstruct persisted subjects at the canonical owner. Preserve explicitly
+frozen values and distinguish absence of an optional historical field from a
+conflicting value. A search projection need not include all immutable subject
+fields. Cache validity follows actual computation dependencies; unrelated
+scheduling, metadata or downstream presentation changes do not invalidate
+upstream results. Judge compatibility by correct usable results, not byte identity.
 
-Before sending a material instruction, freeze:
+Only a relevant semantic change invalidates its dependent evidence. Preserve the
+rest and state the bridge or limitation for comparisons. Healthy expensive work
+continues through reconstructible audit debt. Never repeat valid compute merely
+to improve optional metadata, hashes or reporting.
 
-```yaml
-instruction_id: <stable-id>
-sender_participant_id: <logical-id>
-recipient_participant_ids: [<logical-id>]
-destination_task_id: <id>
-destination_conversation_id: <id-or-none>
-roster_version: <version>
-scope_epoch: <version>
-content_hash: <canonical-hash>
-dispatch_owner: <one-role>
-delivery_state: pending | ambiguous | observed | superseded
-supersedes: <instruction-id-or-none>
-```
+## 6. Measurement and claim boundaries
 
-Resolve the logical recipient through the current roster immediately before
-sending. The receiver verifies its logical identity, destination transport ID,
-campaign, and scope before acting. A mismatch is rejected and reported to sender
-and roster owner without executing or forwarding the payload.
+Separate source acceptance, delivery, deployment, actual runtime adoption,
+recovery/new progress, performance and the requested domain outcome. They require
+evidence at different boundaries. A successful component, technical exit,
+intermediate score or retained candidate does not establish final acceptance.
 
-An ambiguous send requires destination read-back for the same instruction ID,
-hash, and scope. If policy permits one retry after absence is shown, resend the
-identical tuple. Never send a blind third copy. Receivers apply the first tuple
-once and silently drop duplicates.
+For performance, separate startup/cold preparation, uncached computation, durable
+commit, selection/transition and next dispatch. State work units, cache state,
+concurrency, revision, interval and baseline. Reuse throughput is not new-work
+throughput. A sub-operation or single-stage gain cannot prove whole-run speedup.
+Reuse an adequate baseline; an unavailable comparison limits the claim rather
+than authorizing an extra benchmark or restart.
 
-One dispatch owner prevents a supervisor, manager, and researcher from
-mirroring the same correction. Scoped peers may directly send evidence,
-dependency, review, handoff, and completion events. Urgent containment changes
-urgency, not idempotence.
+Attribute resource measurements to owner and interval. Distinguish process memory,
+shared attribution and swap from host totals, peaks, cumulative counters and
+other jobs. Cold allocation or worker turnover is not automatically a leak.
+Zero local swap does not prove absence of host pressure. Missing ownership or
+measurement stays unknown; do not manufacture zeroes or success.
 
-## 5. Readiness without approval loops
-
-One bounded prelaunch review covers:
-
-- causal question and control/intervention identity;
-- estimand, sample unit, comparison, and important edge cases;
-- outcome fields, evidence writer, capacity, and resume behavior;
-- executable path, resource safety, and smallest decisive falsifier.
-
-Resolve concrete findings together, run focused verification, and launch. Do
-not reopen the same gate through serial reviewers unless new evidence
-contradicts the approved design. Scientific comparability comes before hashes,
-wrappers, display fields, optional metadata, or defensive branches.
-
-Within its lease, a research lane autonomously repairs reversible experiment
-code, configuration, imports, persistence, identity/accounting, tests, and
-ordinary local infrastructure. A validation-invalid run is quarantined and its
-physical cost recorded; it does not enter scientific sample size or consume a
-hypothesis retry. Repairing the cause and obtaining the first valid result is
-required progress.
-
-After readiness, the next action starts real validation or returns one
-evidence-backed architecture, data, resource, or authority blocker. More cards,
-audits, tests, or defensive code without outcome evidence are governance
-no-progress.
-
-### Complete-run-first iteration
-
-A complete run is the smallest valid end-to-end execution that applies the
-intended change to authoritative inputs and reaches the registered outcome
-writer with analyzable primary, guardrail, runtime, and statistical outputs. It
-is complete in causal and execution path, not necessarily large in scale.
-
-Use this default loop:
-
-1. freeze one falsifiable hypothesis and one major change while holding
-   unrelated axes fixed;
-2. when a material-risk trigger applies, perform at most one bounded review for
-   validity or executable-path faults; otherwise run immediately;
-3. run the smallest complete outcome-bearing experiment;
-4. analyze activation, missingness, denominators, uncertainty, guardrails,
-   runtime cost/failure, and result sensitivity from the actual run;
-5. keep, revert, repair, pivot, or scale from that evidence.
-
-Tests, static checks, and code review enable a run; they never substitute for
-one. After the bounded review closes, another pre-run review requires new
-material evidence and a named affected decision. Repeated review rounds without
-a completed valid run are no-progress.
-
-| May block the affected run or claim | Does not block by itself |
-| --- | --- |
-| wrong algorithm or causal mapping; architecture bypasses the intervention; intervention not applied; runtime cannot complete or recover; wrong input or evaluator; leakage, corruption, invalid estimand, denominator, independence assumption, or statistical test; unrecoverable outcome; actual safety or resource-corruption risk | style, cleanup, optional refactor; speculative hardening; hypothetical edge cases, retries, wrappers, schemas, or abstractions not observed on the active path; optional or reconstructible metadata; descriptive hash drift while canonical identity remains intact; unrelated baseline defects |
-
-A hash is an integrity check, not the scientific subject. It blocks only when
-evidence shows the wrong canonical code, configuration, data, evaluator, or
-payload; contamination or corruption; or provenance too damaged to reconstruct
-the tested run. Otherwise record a warning, bind semantic identity, backfill at
-a safe boundary, and continue. Never repeat valid compute solely to improve a
-hash or optional metadata.
-
-Every new guard, retry, wrapper, schema, or abstraction names the observed
-active-path failure, affected result, and removal or falsification condition.
-Without those fields, defer it rather than expanding the mainline.
-
-## 6. Post-launch continuity
-
-Do not interrupt healthy expensive work for reconstructible audit debt:
-
-| Finding | Default action |
-| --- | --- |
-| Optional field, timestamp, label, descriptive hash, duplicate transport message, or reconstructible encoding defect | continue the atomic run; preserve output; backfill at a safe boundary |
-| Result-writer failure with recoverable authoritative outcomes and execution identity | preserve the boundary and reconstruct; do not repeat compute |
-| Missing unrecoverable primary outcome or denominator, wrong method or input, leakage, corrupted evidence, unsafe resource state, or intervention not applied | fail closed for affected evidence; repair; rerun only invalid scope |
-
-Code, configuration, branch, runtime source, or evaluator changes open an
-evidence epoch. They do not by themselves stop unrelated healthy research.
-Incompatible epochs remain unpooled; only the affected batch starts fresh.
+A domain outcome states its actual sample, denominator, period, costs and relevant
+risk basis. Do not combine incomparable samples or promote intermediate selection
+into final outcome evidence. Leave the overall objective open while any required
+outcome is unmeasured or unresolved.
 
 ## 7. Statistical scale and validation
 
-An execution batch is a recoverable cost unit, not automatically an independent
-replicate, inferential look, or total sample cap. Repeated events within one
-correlated subject, family, parent, or time block are not independent because a
-runner reports many rows.
+Before an efficacy claim or confirmation-scale allocation, freeze the relevant
+claim/tier, population, independent unit, baseline/intervention, metrics,
+guardrails, meaningful effect, uncertainty, stopping rule and cost ceiling.
+Use the existing [experiment record](../templates/experiment.yaml) when useful;
+nonapplicable fields need not become a new framework for engineering checks.
 
-Before efficacy conclusions or confirmation-scale allocation, freeze the
-relevant fields:
+Account for clustering, autocorrelation, repeated observations, shared anchors,
+selection and missingness. Rows and execution batches are not automatically
+independent replicates. Register sequential looks and pooling rules when needed;
+track cumulative exposure across renamed tasks and retries. Underpowered evidence
+can inform a narrower decision but cannot claim powered success or impossibility.
 
-```yaml
-validation_id: <id>
-validation_epoch: <version>
-claim_and_tier: <claim-boundary>
-estimand: <quantity>
-independent_unit_and_correlation: <definition>
-compute_or_coverage_unit: <definition>
-eligibility_denominators_and_missingness: <definitions>
-provenance_freshness_and_leakage: <checks>
-minimum_effect_of_interest: <effect>
-error_power_and_sidedness: <values>
-planned_independent_observations: <count>
-sequential_looks_and_spending: <policy>
-maximum_cumulative_compute: <envelope>
-baseline_intervention_evaluator_identity: <refs>
-negative_or_placebo_controls:
-  - <control>
-invalidation_conditions:
-  - <condition>
-result_class_to_decision:
-  <class>: <decision>
-```
-
-At an early semantic or feasibility screen, nonapplicable fields may state the
-promotion condition that will require them. Do not build a power framework for
-a no-effect screen; do not make an efficacy claim without the required design.
-
-A fresh high-capability validation critic returns one of:
-
-```text
-valid_for_claim
-valid_for_narrower_claim
-screen_only
-method_revision_required
-invalid_for_claim
-unresolved
-```
-
-A material method change increments the validation epoch. Prior evidence is
-quarantined until a bridge proves comparability. Invalid validation blocks the
-affected claim and dependent scale-up, not unrelated routes.
+Material method changes limit affected pooling; unrelated evidence remains valid.
+Invalid/quarantined results retain their reason and cost. Independent review
+returns `valid_for_claim`, `valid_for_narrower_claim`, `screen_only`,
+`method_revision_required`, `invalid_for_claim` or `unresolved`. A narrower valid
+claim does not authorize the original scale-up.
 
 ## 8. Progress and intervention
 
-Classify work exactly once:
+Distinguish experiment/replication results and portfolio decisions from enabling
+fixes, audits and blockers. Link a fix to the work it unblocks. Follow relevant
+outcomes, costs, invalid work and time to next evidence; do not collect every
+possible governance metric.
 
-```text
-experiment_result
-replication_result
-portfolio_decision
-enabling_fix
-audit_only
-blocked
-```
+Intervene when plans, reviews or scaffolding repeatedly displace the requested
+outcome, or ready work loses its owner. Correct the smallest affected boundary;
+reallocate or replace ownership only within authority. Governance activity is not
+scientific progress, but an authorized documentation task completes with its
+requested documentation and checks, not an unrelated experiment.
 
-Only the first three are evidence progress. Credit an enabling fix only when it
-is linked to the experiment it unblocked. Useful portfolio signals include
-valid results, replicated results, decisions changed, primary and guardrail
-effects, compute per valid result, invalid or duplicate compute, governance
-budget, time since evidence, unowned idle time, and free resources while ready
-work exists.
+## 9. Lifecycle and resources
 
-An expected experiment window containing only plans, validators, tests,
-reports, or governance changes triggers intervention. A finished lane with
-ready safe work but no next owner is also no-progress.
+Keep a next owner/action/wake for active or queued work. Transport idle does not
+mean a task failed. Reuse a coherent conversation; rotate only for a concrete
+independence, isolation or recovery need and authorized successor. Transfer one
+lease without duplicate writers or full transcript replay.
 
-| Level | Trigger | Smallest response |
-| --- | --- | --- |
-| I0 observe | aligned and producing evidence | wait for the declared event |
-| I1 correct | small drift or incomplete report | restate boundary and next evidence |
-| I2 constrain | excess enabling work or unowned ready lane | freeze extra machinery; run linked experiment |
-| I3 reallocate | repeated drift, duplication, poor marginal compute | pause, retire, reassign, or gated rotation |
-| I4 restructure | manager cannot preserve objective or portfolio quality | replace manager from frozen state |
+Bound concurrency by actual user, CPU, memory, storage and I/O limits. Account
+for nested workers and numerical threads. Available hardware grants no scope.
+Isolate conflicting writers; share immutable inputs and compatible caches through
+their established locking contract. Preserve healthy jobs and foreign dirty work.
 
-Intervention does not grant destructive, external, or scope-expanding
-authority.
+One human gateway handles campaign decisions without suppressing direct user
+instructions or required tool approvals. Ask only for a missing external decision;
+prepare what is already reviewable and continue independent work. Silence is not
+approval, and a scoped blocker is not a campaign-wide stop.
 
-## 9. Conversation lifecycle and human gateway
+## 10. Finalization and cleanup
 
-Transport `idle` means only that a turn ended. Every nonterminal lane records:
+Report the objective, supported result, limits, relevant tested/delivered revision,
+remaining work and next owner. Keep implementation, runtime and outcome claims
+separate. Report decision-relevant deltas, not concatenated logs.
 
-```yaml
-research_state: active | awaiting_manager | queued | blocked | retired
-disposition: reuse | queue | retire | rotate
-resource_lease_state: assigned | released | transferring
-next_owner: <role-or-none-terminal>
-next_action: <one-action-or-none>
-decision_due: <event-or-condition>
-completion_delivery_state: <not_due | pending | ambiguous | observed>
-predecessor_task_id: <id-or-none>
-successor_task_id: <id-or-none>
-rotation_reason: <gate-or-none>
-```
+Preserve raw inputs, models, durable evidence, valid caches, resume state and
+foreign/unmerged work. Clean only explicitly authorized disposable targets after
+relevant ownership and active-use checks. Ignored, old or merged does not mean
+safe to delete. Process control, file deletion and replacement launch are separate
+permissions. Do not expand cleanup or recreate intentionally removed state.
 
-Reuse is the default for a coherent recoverable lane. Rotate only for a true
-independence, isolation, failed-recovery, repeated-drift, or incompatible-phase
-gate. Transfer one lease atomically after successor acknowledgement; do not
-replay the predecessor transcript.
-
-Exactly one management role is the human gateway:
-
-| Class | Meaning | Handling |
-| --- | --- | --- |
-| H0 autonomous | charter or lease determines action | decide and continue |
-| H1 deferred | input may improve a later choice | batch it; continue |
-| H2 scoped | one action needs external authority or value judgment | pause that action only |
-| H3 campaign critical | all useful paths depend on one external decision and guessing is unsafe | present one compact decision packet |
-
-H3 requires evidence that the decision lies outside active leases, affects
-every useful path, cannot be reduced safely first, and guessing or delay creates
-material risk. Silence is not approval, but it is also not a reason to stop H0
-work.
-
-## 10. Resources, evidence, cleanup, and reports
-
-Parallel lanes require separate mutable-state ownership. Share immutable inputs
-and compatible identity-bound caches through their existing locking contract.
-Persist code, input, configuration, evaluator, resource, concurrency, cache,
-and owner identity with results. Never infer a fixed research role from a
-resource name.
-
-Finalization is a state machine:
-
-```text
-running -> result_frozen -> reachable
-        -> merged_or_archived -> cleaned
-```
-
-Preserve raw inputs, durable evidence, active resume state, foreign changes,
-and unmerged work. Clean only exact resolved targets after reachability,
-ownership, process/lock, and merge/archive checks. Recurring campaign tasks are
-resources and need an explicit retained or removed disposition.
-
-A management report contains objective status, primary and guardrail effects,
-uncertainty, valid and invalid work, failure cost, route and retry state,
-reviews and dissent, resource changes, human-decision scope, safe work
-continuing, next actions, and next report condition. A no-result period says so
-and names cost, failure class, corrective decision, and next evidence condition.
-Do not concatenate child logs.
-
-## 11. Failure repair index
-
-| Observed failure | Repair |
-| --- | --- |
-| unchanged state is polled | restore event/cursor reads and silence no-change events |
-| wrong task/conversation ID is recorded | quarantine binding, read state back, append corrected roster version, notify affected roles |
-| instruction reaches the wrong role | reject without action; resolve logical recipient and current binding before one correct send |
-| small task finishes silently | persist result; notify commissioner, decision owner, and fired subscribers directly |
-| every task is idle while nonterminal | reconcile liveness edges; wake minimum authorized G2/G1/G0 set |
-| G1 becomes a routine relay | restore scoped direct subscriptions and reserve G1 for management deltas |
-| ambiguous create duplicates tasks | bind one creation key and contain duplicate leases |
-| ambiguous instruction is resent | read destination; retry one identical tuple only after absence |
-| invalid evidence repeats | quarantine affected claims and repair the smallest method boundary |
-| review becomes an approval loop | require one concrete material fault or close it |
-| reviews repeat while no complete run finishes | close review, freeze one candidate, and execute the smallest valid end-to-end path |
-| defensive engineering expands beyond an observed mainline failure | remove or defer speculative machinery; keep the smallest evidence-linked repair |
-| a hash-only discrepancy blocks valid work | verify canonical semantic identity and provenance; warn or backfill unless the tested subject is actually wrong or unreconstructible |
-| challenge becomes a stalling tactic | require new evidence and close duplicate objections by lineage |
-| completed lane becomes unowned | choose reuse, queue, retire, or gated rotation |
-| one blocker stops the campaign | narrow the blocked scope and advance safe alternatives |
-| governance becomes the project | reduce to anchor, leases, checkpoints, decisions, and evidence refs |
-| context drifts after correction | rotate from a compact checkpoint instead of replaying history |
-
-Activate these controls after the named event or a material risk. They are not
-a checklist that every ordinary experiment must complete.
-
-For full roster, direct-routing, completion-delivery, watchdog, and role-memory
-rules, load [communication and liveness](communication-liveness.md).
+Give recurring tasks their saved terminal disposition. Shortening a prompt
+preserves schedule, status, target, model and notification settings. A pending
+startup dependency does not itself pause a monitor; a historical stopped/deleted
+monitor is not recreated. Stopping monitoring does not stop computation unless
+also authorized. Use [the short watchdog prompt](../prompts/watchdog.md).

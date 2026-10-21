@@ -2,6 +2,9 @@
 
 Use model capability where an error can redirect the research program. Use a
 lightweight model where correctness is sealed by the task and its verifier.
+Explicit user selections and current runtime availability govern; preserve an
+existing task's assignment during prompt-only edits. A capability label does not
+prove the quality or independence of its result.
 
 ## Default classes
 
